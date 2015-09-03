@@ -12,7 +12,9 @@
 		C768D4C81B96077C0058EDE3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C768D4C61B96077C0058EDE3 /* Main.storyboard */; };
 		C768D4CA1B96077C0058EDE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C768D4C91B96077C0058EDE3 /* Assets.xcassets */; };
 		C768D4CD1B96077C0058EDE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C768D4CB1B96077C0058EDE3 /* LaunchScreen.storyboard */; };
-		C768D4DA1B96084D0058EDE3 /* PagingView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C768D4D91B9607AF0058EDE3 /* PagingView.framework */; };
+		C768D4F21B982B430058EDE3 /* PagingViewExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4F11B982B430058EDE3 /* PagingViewExampleUITests.swift */; };
+		C768D50A1B9832A80058EDE3 /* PagingView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C768D4D91B9607AF0058EDE3 /* PagingView.framework */; };
+		C768D50B1B9832A80058EDE3 /* PagingView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C768D4D91B9607AF0058EDE3 /* PagingView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,7 +25,35 @@
 			remoteGlobalIDString = C768D4A81B9605A60058EDE3;
 			remoteInfo = PagingView;
 		};
+		C768D4F41B982B430058EDE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C768D4B71B96077C0058EDE3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C768D4BE1B96077C0058EDE3;
+			remoteInfo = PagingViewExample;
+		};
+		C768D50C1B9832A80058EDE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C768D4D41B9607AF0058EDE3 /* PagingView.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = C768D4A71B9605A60058EDE3;
+			remoteInfo = PagingView;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C768D50E1B9832A80058EDE3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C768D50B1B9832A80058EDE3 /* PagingView.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C768D4BF1B96077C0058EDE3 /* PagingViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PagingViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -34,6 +64,9 @@
 		C768D4CC1B96077C0058EDE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C768D4CE1B96077C0058EDE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C768D4D41B9607AF0058EDE3 /* PagingView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PagingView.xcodeproj; path = ../PagingView.xcodeproj; sourceTree = "<group>"; };
+		C768D4EF1B982B430058EDE3 /* PagingViewExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PagingViewExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C768D4F11B982B430058EDE3 /* PagingViewExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingViewExampleUITests.swift; sourceTree = "<group>"; };
+		C768D4F31B982B430058EDE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +74,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C768D4DA1B96084D0058EDE3 /* PagingView.framework in Frameworks */,
+				C768D50A1B9832A80058EDE3 /* PagingView.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C768D4EC1B982B430058EDE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +93,7 @@
 			children = (
 				C768D4D41B9607AF0058EDE3 /* PagingView.xcodeproj */,
 				C768D4C11B96077C0058EDE3 /* PagingViewExample */,
+				C768D4F01B982B430058EDE3 /* PagingViewExampleUITests */,
 				C768D4C01B96077C0058EDE3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				C768D4BF1B96077C0058EDE3 /* PagingViewExample.app */,
+				C768D4EF1B982B430058EDE3 /* PagingViewExampleUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -86,6 +128,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C768D4F01B982B430058EDE3 /* PagingViewExampleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				C768D4F11B982B430058EDE3 /* PagingViewExampleUITests.swift */,
+				C768D4F31B982B430058EDE3 /* Info.plist */,
+			);
+			path = PagingViewExampleUITests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -96,15 +147,35 @@
 				C768D4BB1B96077C0058EDE3 /* Sources */,
 				C768D4BC1B96077C0058EDE3 /* Frameworks */,
 				C768D4BD1B96077C0058EDE3 /* Resources */,
+				C768D50E1B9832A80058EDE3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				C768D50D1B9832A80058EDE3 /* PBXTargetDependency */,
 			);
 			name = PagingViewExample;
 			productName = PagingViewExample;
 			productReference = C768D4BF1B96077C0058EDE3 /* PagingViewExample.app */;
 			productType = "com.apple.product-type.application";
+		};
+		C768D4EE1B982B430058EDE3 /* PagingViewExampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C768D4F91B982B430058EDE3 /* Build configuration list for PBXNativeTarget "PagingViewExampleUITests" */;
+			buildPhases = (
+				C768D4EB1B982B430058EDE3 /* Sources */,
+				C768D4EC1B982B430058EDE3 /* Frameworks */,
+				C768D4ED1B982B430058EDE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C768D4F51B982B430058EDE3 /* PBXTargetDependency */,
+			);
+			name = PagingViewExampleUITests;
+			productName = PagingViewExampleUITests;
+			productReference = C768D4EF1B982B430058EDE3 /* PagingViewExampleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -117,6 +188,10 @@
 				TargetAttributes = {
 					C768D4BE1B96077C0058EDE3 = {
 						CreatedOnToolsVersion = 7.0;
+					};
+					C768D4EE1B982B430058EDE3 = {
+						CreatedOnToolsVersion = 7.0;
+						TestTargetID = C768D4BE1B96077C0058EDE3;
 					};
 				};
 			};
@@ -140,6 +215,7 @@
 			projectRoot = "";
 			targets = (
 				C768D4BE1B96077C0058EDE3 /* PagingViewExample */,
+				C768D4EE1B982B430058EDE3 /* PagingViewExampleUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -165,6 +241,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C768D4ED1B982B430058EDE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -177,7 +260,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C768D4EB1B982B430058EDE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C768D4F21B982B430058EDE3 /* PagingViewExampleUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C768D4F51B982B430058EDE3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C768D4BE1B96077C0058EDE3 /* PagingViewExample */;
+			targetProxy = C768D4F41B982B430058EDE3 /* PBXContainerItemProxy */;
+		};
+		C768D50D1B9832A80058EDE3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PagingView;
+			targetProxy = C768D50C1B9832A80058EDE3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		C768D4C61B96077C0058EDE3 /* Main.storyboard */ = {
@@ -284,6 +388,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = PagingViewExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyoheiito.PagingViewExample;
@@ -295,10 +400,37 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = PagingViewExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyoheiito.PagingViewExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		C768D4F61B982B430058EDE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = PagingViewExampleUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kyoheiito.PagingViewExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = PagingViewExample;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		C768D4F71B982B430058EDE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = PagingViewExampleUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.kyoheiito.PagingViewExampleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = PagingViewExample;
+				USES_XCTRUNNER = YES;
 			};
 			name = Release;
 		};
@@ -319,6 +451,15 @@
 			buildConfigurations = (
 				C768D4D21B96077C0058EDE3 /* Debug */,
 				C768D4D31B96077C0058EDE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C768D4F91B982B430058EDE3 /* Build configuration list for PBXNativeTarget "PagingViewExampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C768D4F61B982B430058EDE3 /* Debug */,
+				C768D4F71B982B430058EDE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
