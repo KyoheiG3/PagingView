@@ -96,7 +96,7 @@ public class PagingView: UIScrollView {
         return delegate as? PagingViewDelegate
     }
     
-    public weak var dataSource: PagingViewDataSource?
+    @IBOutlet public weak var dataSource: PagingViewDataSource?
     /// Margin between the content.
     public var pagingMargin: UInt = 0
     /// Inset of content relative to size of PagingView. Value of two times than of pagingInset to set for the left and right of contentInset.
