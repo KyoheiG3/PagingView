@@ -275,6 +275,7 @@ extension PagingView {
         }
         
         if beforeSize != contentSize {
+            contentSize = CGSize(width: floor(contentSize.width), height: floor(contentSize.height))
             let offsetX = contentOffsetXAtPosition(.Center)
             setContentOffset(CGPoint(x: offsetX, y: contentOffset.y), animated: false)
         } else {
@@ -412,64 +413,64 @@ extension PagingView {
         willDisplayView(centerContentView)
     }
     
-    func addConstraintsWithVisualFormat(format: String, metrics: [String : AnyObject]?, views: [String : AnyObject]) {
-        let constraints = NSLayoutConstraint.constraintsWithVisualFormat(format, options: [], metrics: metrics, views: views)
-        addConstraints(constraints)
-    }
-    
     func setupPagingContentView() {
         let superKey = "superView"
         let contentKey = "contentView"
         let lastContentKey = "lastContentView"
         let spaceKey = "space"
+        let pagingSpace = CGFloat(pagingInset + pagingMargin)
         
-        func layoutPagingViewContent(contentView: ContentView) {
-            addSubview(contentView)
-            contentView.translatesAutoresizingMaskIntoConstraints = false
-            
-            let width = NSLayoutConstraint(item: self,
-                attribute: .Width,
-                relatedBy: .Equal,
-                toItem: contentView,
-                attribute: .Width,
-                multiplier: 1,
-                constant: CGFloat(pagingMargin + pagingInset) * 2)
-            addConstraints([width])
-            
-            let views = [contentKey: contentView, superKey: self]
-            let format = "V:|[\(contentKey)(==\(superKey))]|"
-            addConstraintsWithVisualFormat(format, metrics: nil, views: views)
+        func constraintsWithFormat(format: String, metrics: [String : AnyObject]? = nil, views: [String : AnyObject]) -> [NSLayoutConstraint] {
+            return NSLayoutConstraint.constraintsWithVisualFormat(format, options: [], metrics: metrics, views: views)
         }
         
-        let pagingSpace = CGFloat(pagingInset + pagingMargin)
+        func widthConstraints(contentView: ContentView) -> [NSLayoutConstraint] {
+            return [NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: contentView, attribute: .Width, multiplier: 1, constant: pagingSpace * 2)]
+        }
+        
+        func heightConstraints(contentView: ContentView) -> [NSLayoutConstraint] {
+            return constraintsWithFormat("V:|[\(contentKey)(==\(superKey))]|", views: [contentKey: contentView, superKey: self])
+        }
+        
+        func leftSpaceConstraints(contentView: ContentView) -> [NSLayoutConstraint] {
+            return constraintsWithFormat("|-\(spaceKey)-[\(contentKey)]", metrics: [spaceKey: pagingSpace - contentInset.left], views: [contentKey: contentView])
+        }
+        
+        func betweenSpaceConstraints(contentView: ContentView, lastContentView: ContentView) -> [NSLayoutConstraint] {
+            return constraintsWithFormat("[\(lastContentKey)]-\(spaceKey)-[\(contentKey)]", metrics: [spaceKey: pagingMargin * 2], views: [contentKey: contentView, lastContentKey: lastContentView])
+        }
+        
+        func rightSpaceConstraints(lastContentView: ContentView) -> [NSLayoutConstraint] {
+            return constraintsWithFormat("[\(lastContentKey)]-\(spaceKey)-|", metrics: [spaceKey: pagingSpace - contentInset.right], views: [lastContentKey: lastContentView])
+        }
+        
+        var constraints: [NSLayoutConstraint] = []
+        func layoutPagingViewContent(contentView: ContentView?, lastContentView: ContentView?) {
+            if let contentView = contentView {
+                constraints.appendContentsOf(widthConstraints(contentView))
+                constraints.appendContentsOf(heightConstraints(contentView))
+                
+                if let lastContentView = lastContentView {
+                    constraints.appendContentsOf(betweenSpaceConstraints(contentView, lastContentView: lastContentView))
+                } else {
+                    constraints.appendContentsOf(leftSpaceConstraints(contentView))
+                }
+            } else if let lastContentView = lastContentView {
+                constraints.appendContentsOf(rightSpaceConstraints(lastContentView))
+            }
+        }
         
         for _ in 0..<pagingContentCount {
             let contentView = ContentView(frame: bounds)
-            layoutPagingViewContent(contentView)
+            contentView.translatesAutoresizingMaskIntoConstraints = false
+            addSubview(contentView)
             
-            var views = [contentKey: contentView]
-            var metrics: [String: AnyObject]? = nil
-            let format: String
-            
-            if let lastContent = pagingContents.last {
-                views[lastContentKey] = lastContent
-                metrics = [spaceKey: pagingMargin * 2]
-                format = "[\(lastContentKey)]-\(spaceKey)-[\(contentKey)]"
-            } else {
-                metrics = [spaceKey: pagingSpace - contentInset.left]
-                format = "|-\(spaceKey)-[\(contentKey)]"
-            }
-            
-            addConstraintsWithVisualFormat(format, metrics: metrics, views: views)
+            layoutPagingViewContent(contentView, lastContentView: pagingContents.last)
             pagingContents.append(contentView)
         }
         
-        if let lastContent = pagingContents.last {
-            let views = [lastContentKey: lastContent]
-            let metrics = [spaceKey: pagingSpace - contentInset.right]
-            let format = "[\(lastContentKey)]-\(spaceKey)-|"
-            addConstraintsWithVisualFormat(format, metrics: metrics, views: views)
-        }
+        layoutPagingViewContent(nil, lastContentView: pagingContents.last)
+        addConstraints(constraints)
     }
     
     func removeContentView() {
