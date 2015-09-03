@@ -321,6 +321,7 @@
 				C768D4D31B96077C0058EDE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

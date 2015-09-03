@@ -8,75 +8,40 @@
 
 import UIKit
 
-@objc protocol PagingViewDataSource: class {
+@objc public protocol PagingViewDataSource: class {
     func pagingView(pagingView: PagingView, numberOfItemsInSection section: Int) -> Int
     func pagingView(pagingView: PagingView, cellForItemAtIndexPath indexPath: NSIndexPath) -> PagingViewCell
     
     optional func numberOfSectionsInPagingView(pagingView: PagingView) -> Int
-    optional func indexPathOfStartingInPagingView(pagingView: PagingView) -> NSIndexPath
+    optional func indexPathOfStartingInPagingView(pagingView: PagingView) -> NSIndexPath?
 }
 
-@objc protocol PagingViewDelegate: UIScrollViewDelegate {
+@objc public protocol PagingViewDelegate: UIScrollViewDelegate {
     optional func pagingView(pagingView: PagingView, willDisplayCell cell: PagingViewCell, forItemAtIndexPath indexPath: NSIndexPath)
     optional func pagingView(pagingView: PagingView, didEndDisplayingCell cell: PagingViewCell, forItemAtIndexPath indexPath: NSIndexPath)
 }
 
-class PagingViewCell: UIView {
-    private struct ReuseQueue {
-        private var queue: [String: [PagingViewCell]] = [:]
-        
-        func dequeue(identifier: String) -> PagingViewCell? {
-            return queue[identifier]?.filter { $0.superview == nil }.first
-        }
-        
-        mutating func append(view: PagingViewCell, forQueueIdentifier identifier: String) {
-            if queue[identifier] == nil {
-                queue[identifier] = []
-            }
-            
-            queue[identifier]?.append(view)
-        }
-        
-        mutating func remove(identifier: String) {
-            queue[identifier] = nil
-        }
-        
-        func count(identifier: String) -> Int {
-            return queue[identifier]?.count ?? 0
-        }
-    }
-    
-    private(set) var indexPath = NSIndexPath(forItem: 0, inSection: 0)
-    private(set) var reuseIdentifier: String?
-    
-    func prepareForReuse() {
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
-    required override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-}
-
-class PagingView: UIScrollView {
+public class PagingView: UIScrollView {
     typealias Cell = PagingViewCell
     
-    private class ContentView: UIView {
+    class ContentView: UIView {
+        func visible(rect: CGRect) -> Bool {
+            return CGRectIntersectsRect(rect, frame)
+        }
+        
         var cell: Cell? {
             return subviews.first as? Cell
         }
         
-        private func addContentCell(cell: Cell, indexPath: NSIndexPath) {
+        func addContentCell(cell: Cell, indexPath: NSIndexPath) {
             cell.frame = CGRect(origin: CGPoint.zero, size: bounds.size)
             cell.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
             addSubview(cell)
             cell.indexPath = indexPath
+            cell.hidden = false
         }
         
-        private func contentMoveFrom(contentView: ContentView) {
+        func contentMoveFrom(contentView: ContentView) {
             removeContentCell()
             
             if let cell = contentView.cell {
@@ -84,48 +49,38 @@ class PagingView: UIScrollView {
             }
         }
         
-        private func removeContentCell() {
-            for view in subviews {
+        func removeContentCell() {
+            while let view = subviews.last {
                 view.removeFromSuperview()
             }
         }
     }
     
-    enum Position {
+    /// Position of contents of PagingView.
+    public enum Position {
         case Left
         case Center
         case Right
-        case Same
         
-        private func numberOfPages() -> Int {
+        func numberOfPages() -> Int {
             switch self {
             case Left:
                 return 0
-            case Center, Same:
+            case Center:
                 return 1
             case Right:
                 return 2
             }
         }
-        
-        private func pagingPosition(ratio: CGFloat) -> Position {
-            if ratio < CGFloat(Center.numberOfPages()) {
-                return self == .Left ? .Same : .Left
-            } else if ratio > CGFloat(Center.numberOfPages()) {
-                return self == .Right ? .Same : .Right
-            } else {
-                return .Center
-            }
-        }
     }
     
+    private let pagingContentCount = 3
     private var sectionCount = 1
     private var itemCountInSection: [Int: Int] = [:]
     private var pagingReuseQueue = PagingViewCell.ReuseQueue()
     private var registeredObject: [String: AnyObject] = [:]
     private var pagingContents: [ContentView] = []
-    private var currentPosition = Position.Center
-    private var toScrollIndexPath: NSIndexPath?
+    private var reloadingIndexPath: NSIndexPath?
     
     private var leftContentView: ContentView {
         return pagingContentAtPosition(.Left)
@@ -137,44 +92,297 @@ class PagingView: UIScrollView {
         return pagingContentAtPosition(.Right)
     }
     
-    var contentWidth: CGFloat {
-        let scale = UIScreen.mainScreen().scale
-        return round(contentSize.width / 3 * scale) / scale
-    }
-    
-    private var infiniteOffset: CGPoint {
-        return CGPoint(x: contentWidth * 2, y: contentSize.height - bounds.height)
-    }
-    
-    weak var dataSource: PagingViewDataSource?
-    
     private var pagingViewDelegate: PagingViewDelegate? {
         return delegate as? PagingViewDelegate
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public weak var dataSource: PagingViewDataSource?
+    /// Margin between the content.
+    public var pagingMargin: UInt = 0
+    /// Inset of content relative to size of PagingView. Value of two times than of pagingInset to set for the left and right of contentInset.
+    public var pagingInset: UInt = 0
+    
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        pagingEnabled = true
+        scrollsToTop = false
     }
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         
         pagingEnabled = true
         scrollsToTop = false
-        
-        setupPagingContentView()
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        pagingEnabled = true
-        scrollsToTop = false
-        
-        setupPagingContentView()
+    func pagingContentAtPosition(position: Position) -> ContentView {
+        return pagingContents[position.numberOfPages()]
     }
     
-    override func drawRect(rect: CGRect) {
+    func contentOffsetXAtPosition(position: Position) -> CGFloat {
+        let view = pagingContentAtPosition(position)
+        let pagingSpace = CGFloat(pagingInset + pagingMargin)
+        return view.frame.origin.x - pagingSpace
+    }
+    
+    public func dequeueReusableCellWithReuseIdentifier(identifier: String) -> PagingViewCell {
+        if let view = pagingReuseQueue.dequeue(identifier) {
+            view.reuseIdentifier = identifier
+            view.prepareForReuse()
+            return view
+        }
+        
+        var reuseContent: Cell!
+        if let nib = registeredObject[identifier] as? UINib, instance = nib.instantiateWithOwner(nil, options: nil).first as? Cell {
+            reuseContent = instance
+        } else if let T = registeredObject[identifier] as? Cell.Type {
+            reuseContent = T.init(frame: bounds)
+        } else {
+            fatalError("could not dequeue a view of kind: UIView with identifier \(identifier) - must register a nib or a class for the identifier")
+        }
+        
+        pagingReuseQueue.append(reuseContent, forQueueIdentifier: identifier)
+        
+        return reuseContent
+    }
+    
+    /// For each reuse identifier that the paging view will use, register either a class or a nib from which to instantiate a cell.
+    /// If a nib is registered, it must contain exactly 1 top level object which is a PagingViewCell.
+    /// If a class is registered, it will be instantiated via alloc/initWithFrame:
+    public func registerNib(nib: UINib?, forCellWithReuseIdentifier identifier: String) {
+        registeredObject[identifier] = nib
+    }
+    
+    public func registerClass<T: UIView>(viewClass: T.Type, forCellWithReuseIdentifier identifier: String) {
+        registeredObject[identifier] = viewClass
+    }
+    
+    /// discard the dataSource and delegate data and requery as necessary.
+    public func reloadData() {
+        reloadingIndexPath = centerContentView.cell?.indexPath
+        leftContentView.removeContentCell()
+        centerContentView.removeContentCell()
+        rightContentView.removeContentCell()
+        
+        setNeedsDisplay()
+    }
+    
+    /// Information about the current state of the paging view.
+    
+    public func numberOfSections() -> Int {
+        return sectionCount
+    }
+    
+    public func numberOfItemsInSection(section: Int) -> Int {
+        return itemCountInSection[section] ?? 0
+    }
+    
+    /// To scroll at Position. Cell configure is performed at NSIndexPath.
+    public func setContentPosition(position: Position, indexPath: NSIndexPath? = nil, animated: Bool = false) {
+        guard position != .Center else {
+            configureNextContentAtPosition(.Center)
+            configureNextContentAtPosition(.Left)
+            configureNextContentAtPosition(.Right)
+            return
+        }
+        
+        defer {
+            let offsetX = contentOffsetXAtPosition(position)
+            setContentOffset(CGPoint(x: offsetX, y: contentOffset.y), animated: animated)
+        }
+        
+        guard let indexPath = indexPath else {
+            return
+        }
+        
+        let toIndexPath: NSIndexPath
+        if position == .Right {
+            toIndexPath = indexPathAtPosition(.Left, indexPath: indexPath)
+        } else if position == .Left {
+            toIndexPath = indexPathAtPosition(.Right, indexPath: indexPath)
+        } else {
+            toIndexPath = indexPath
+        }
+        
+        configureNextContentAtPosition(.Center, toIndexPath: toIndexPath)
+        configureNextContentAtPosition(position)
+    }
+    
+    func configureNextContentAtPosition(position: Position, toIndexPath: NSIndexPath? = nil) {
+        let indexPath: NSIndexPath
+        
+        if let toIndexPath = toIndexPath {
+            indexPath = toIndexPath
+        } else {
+            guard let centerCell = centerContentView.cell else {
+                return
+            }
+            
+            indexPath = indexPathAtPosition(position, indexPath: centerCell.indexPath)
+        }
+        
+        let contentView = pagingContentAtPosition(position)
+        if contentView.cell?.indexPath != indexPath {
+            configureView(contentView, indexPath: indexPath)
+        }
+    }
+    
+    func configureView(contentView: ContentView, indexPath: NSIndexPath) {
+        contentView.removeContentCell()
+        if let cell = dataSource?.pagingView(self, cellForItemAtIndexPath: indexPath) {
+            contentView.addContentCell(cell, indexPath: indexPath)
+        }
+    }
+    
+    func indexPathAtPosition(position: Position, indexPath: NSIndexPath) -> NSIndexPath {
+        var section = indexPath.section
+        var item = indexPath.item
+        
+        switch position {
+        case .Left:
+            if --item < 0 {
+                if --section < 0 {
+                    section = sectionCount - 1
+                }
+                item = numberOfItemsInSection(section) - 1
+            }
+            
+            return NSIndexPath(forItem: item, inSection: section)
+        case .Right:
+            if ++item >= numberOfItemsInSection(section) {
+                if ++section >= sectionCount {
+                    section = 0
+                }
+                item = 0
+            }
+            
+            return NSIndexPath(forItem: item, inSection: section)
+        case .Center:
+            return indexPath
+        }
+    }
+}
+
+// MARK: - Layout and Display
+extension PagingView {
+    public override func layoutSubviews() {
+        let beforeSize = contentSize
+        super.layoutSubviews()
+        
+        guard pagingContents.count > 0 else {
+            return
+        }
+        
+        if beforeSize != contentSize {
+            let offsetX = contentOffsetXAtPosition(.Center)
+            setContentOffset(CGPoint(x: offsetX, y: contentOffset.y), animated: false)
+        } else {
+            infiniteIfNeeded()
+        }
+        
+        guard dataSource != nil else {
+            return
+        }
+        
+        changeDisplayStatusForCell()
+    }
+    
+    func infiniteIfNeeded() {
+        let offset = contentOffsetInfiniteIfNeeded(contentOffset)
+        if contentOffset != offset {
+            if offset.x > contentOffset.x {
+                willPagingScrollToPrev()
+            } else if offset.x < contentOffset.x {
+                willPagingScrollToPrevNext()
+            }
+            contentOffset = offset
+        }
+    }
+    
+    func contentOffsetInfiniteIfNeeded(offset: CGPoint) -> CGPoint {
+        func xOffset() -> CGFloat? {
+            let contentOffsetLeft = contentOffsetXAtPosition(.Left)
+            let contentOffsetCenter = contentOffsetXAtPosition(.Center)
+            let contentOffsetRight = contentOffsetXAtPosition(.Right)
+            
+            if offset.x - CGFloat(pagingInset) <= contentOffsetLeft {
+                return offset.x + contentOffsetCenter + contentInset.left
+            } else if contentOffsetRight < offset.x + CGFloat(pagingInset) {
+                return offset.x - contentOffsetCenter - contentInset.right
+            } else if contentOffsetRight == offset.x + CGFloat(pagingInset) {
+                return contentOffsetCenter - CGFloat(pagingInset)
+            }
+            
+            return nil
+        }
+        
+        let x = xOffset()
+        
+        return CGPoint(x: x ?? offset.x, y: offset.y)
+    }
+    
+    func willPagingScrollToPrev() {
+        rightContentView.contentMoveFrom(centerContentView)
+        centerContentView.contentMoveFrom(leftContentView)
+    }
+    
+    func willPagingScrollToPrevNext() {
+        leftContentView.contentMoveFrom(centerContentView)
+        centerContentView.contentMoveFrom(rightContentView)
+    }
+    
+    func changeDisplayStatusForCell() {
+        let visibleOffset = CGRect(origin: contentOffset, size: bounds.size)
+        
+        func endDisplay(position: Position) {
+            let view = pagingContentAtPosition(position)
+            let visible = view.visible(visibleOffset)
+            
+            guard let cell = view.cell where visible == cell.hidden && visible == false else {
+                return
+            }
+            
+            didEndDisplayingView(view)
+        }
+        
+        func willDisplay(position: Position) {
+            let view = pagingContentAtPosition(position)
+            let visible = view.visible(visibleOffset)
+            
+            guard (view.cell == nil || visible == view.cell?.hidden) && visible == true else {
+                return
+            }
+            
+            if view.cell == nil {
+                configureNextContentAtPosition(position)
+            }
+            
+            willDisplayView(view)
+        }
+        
+        endDisplay(.Left)
+        endDisplay(.Right)
+        
+        willDisplay(.Left)
+        willDisplay(.Right)
+    }
+    
+    func willDisplayView(contentView: ContentView) {
+        if let cell = contentView.cell {
+            pagingViewDelegate?.pagingView?(self, willDisplayCell: cell, forItemAtIndexPath: cell.indexPath)
+            cell.hidden = false
+        }
+    }
+    
+    func didEndDisplayingView(contentView: ContentView) {
+        if let cell = contentView.cell {
+            cell.hidden = true
+            pagingViewDelegate?.pagingView?(self, didEndDisplayingCell: cell, forItemAtIndexPath: cell.indexPath)
+        }
+    }
+    
+    public override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         
         if let count = dataSource?.numberOfSectionsInPagingView?(self) {
@@ -187,253 +395,93 @@ class PagingView: UIScrollView {
             }
         }
         
-        guard itemCountInSection.count >= 2 || (itemCountInSection.count >= 1 && itemCountInSection[0] >= 1) else {
+        contentInset.left = -CGFloat(pagingInset * 2)
+        contentInset.right = -CGFloat(pagingInset * 2)
+        
+        removeContentView()
+        setupPagingContentView()
+        
+        guard itemCountInSection.count >= 2 || (itemCountInSection.count >= 1 && numberOfItemsInSection(0) >= 1) else {
             return
         }
         
-        let indexPath = dataSource?.indexPathOfStartingInPagingView?(self) ?? NSIndexPath(forItem: 0, inSection: 0)
-        if let cell = dataSource?.pagingView(self, cellForItemAtIndexPath: indexPath) {
-            centerContentView.addContentCell(cell, indexPath: indexPath)
-            pagingViewDelegate?.pagingView?(self, willDisplayCell: cell, forItemAtIndexPath: indexPath)
-        }
+        let indexPath = dataSource?.indexPathOfStartingInPagingView?(self) ?? reloadingIndexPath ?? NSIndexPath(forItem: 0, inSection: 0)
+        reloadingIndexPath = nil
+        
+        configureView(centerContentView, indexPath: indexPath)
+        willDisplayView(centerContentView)
     }
     
-    override func layoutSubviews() {
-        let beforeSize = contentSize
-        super.layoutSubviews()
-        
-        if beforeSize != contentSize {
-            setContentOffset(CGPoint(x: contentWidth * CGFloat(Position.Center.numberOfPages()), y: contentOffset.y), animated: false)
-        } else {
-            infiniteIfNeeded()
-        }
-        
-        guard let _ = dataSource else {
-            return
-        }
-        
-        let position = currentPosition.pagingPosition(ceil(contentOffset.x) / ceil(contentWidth))
-        guard position != .Same else {
-            return
-        }
-        
-        if position != .Center {
-            configureNextContentAtPosition(position)
-        }
-        
-        if currentPosition != .Center {
-            let contentView = pagingContentAtPosition(currentPosition)
-            didEndDisplayingView(contentView)
-        }
-        
-        if position != .Center {
-            let contentView = pagingContentAtPosition(position)
-            willDisplayView(contentView)
-        }
-        
-        currentPosition = position
+    func addConstraintsWithVisualFormat(format: String, metrics: [String : AnyObject]?, views: [String : AnyObject]) {
+        let constraints = NSLayoutConstraint.constraintsWithVisualFormat(format, options: [], metrics: metrics, views: views)
+        addConstraints(constraints)
     }
     
-    func dequeueReusableCellWithReuseIdentifier(identifier: String) -> Cell {
-        if let view = pagingReuseQueue.dequeue(identifier) {
-            view.reuseIdentifier = identifier
-            view.prepareForReuse()
-            return view
-        }
+    func setupPagingContentView() {
+        let superKey = "superView"
+        let contentKey = "contentView"
+        let lastContentKey = "lastContentView"
+        let spaceKey = "space"
         
-        var reuseContent: Cell!
-        if let nib = registeredObject[identifier] as? UINib, instance = nib.instantiateWithOwner(nil, options: nil).first as? Cell {
-            reuseContent = instance
-        } else if let T = registeredObject[identifier] as? Cell.Type {
-            reuseContent = T.init(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 600, height: 600)))
-        } else {
-            fatalError("could not dequeue a view of kind: UIView with identifier \(identifier) - must register a nib or a class for the identifier")
-        }
-        
-        pagingReuseQueue.append(reuseContent, forQueueIdentifier: identifier)
-        
-        return reuseContent
-    }
-    
-    func registerNib(nib: UINib?, forCellWithReuseIdentifier identifier: String) {
-        registeredObject[identifier] = nib
-    }
-    
-    func registerClass<T: UIView>(viewClass: T.Type, forCellWithReuseIdentifier identifier: String) {
-        registeredObject[identifier] = viewClass
-    }
-    
-    func setContentPosition(position: Position, indexPath: NSIndexPath? = nil, animated: Bool = false) {
-        toScrollIndexPath = indexPath
-        if position == .Center || position == .Same {
-            configureNextContentAtPosition(position)
-        } else {
-            setContentOffset(CGPoint(x: contentWidth * CGFloat(position.numberOfPages()), y: contentOffset.y), animated: animated)
-        }
-    }
-    
-    func reloadData() {
-        leftContentView.removeContentCell()
-        centerContentView.removeContentCell()
-        rightContentView.removeContentCell()
-        
-        setNeedsDisplay()
-    }
-    
-    func numberOfSections() -> Int {
-        return sectionCount
-    }
-    
-    func numberOfItemsInSection(section: Int) -> Int {
-        return itemCountInSection[section] ?? 0
-    }
-    
-    private func willPagingScrollToPrev() {
-        rightContentView.contentMoveFrom(centerContentView)
-        centerContentView.contentMoveFrom(leftContentView)
-        didEndDisplayingView(rightContentView)
-        
-        currentPosition = .Center
-    }
-    
-    private func willPagingScrollToPrevNext() {
-        leftContentView.contentMoveFrom(centerContentView)
-        centerContentView.contentMoveFrom(rightContentView)
-        didEndDisplayingView(leftContentView)
-        
-        currentPosition = .Center
-    }
-    
-    private func infiniteIfNeeded() {
-        let offset = contentOffsetInfiniteIfNeeded(contentOffset)
-        if contentOffset != offset {
-            if offset.x > contentOffset.x {
-                willPagingScrollToPrev()
-            } else if offset.x < contentOffset.x {
-                willPagingScrollToPrevNext()
-            }
-            contentOffset = offset
-        }
-    }
-    
-    private func contentOffsetInfiniteIfNeeded(offset: CGPoint) -> CGPoint {
-        func xOffset() -> CGFloat? {
-            if offset.x <= 0 {
-                return offset.x + contentWidth
-            } else if infiniteOffset.x < offset.x {
-                return offset.x - contentWidth
-            } else if infiniteOffset.x == offset.x {
-                return contentWidth
-            }
-            return nil
-        }
-        
-        let x = xOffset()
-        
-        return CGPoint(x: x ?? offset.x, y: offset.y)
-    }
-    
-    private func pagingContentAtPosition(position: Position) -> ContentView {
-        return pagingContents[position.numberOfPages()]
-    }
-    
-    private func configureNextContentAtPosition(position: Position) {
-        guard let centerCell = centerContentView.cell else {
-            return
-        }
-        
-        let indexPath = toScrollIndexPath ?? indexPathAtPosition(position, indexPath: centerCell.indexPath)
-        toScrollIndexPath = nil
-        
-        let contentView = pagingContentAtPosition(position)
-        if contentView.cell?.indexPath != indexPath {
-            configureView(contentView, indexPath: indexPath)
-        }
-    }
-    
-    private func configureView(contentView: ContentView, indexPath: NSIndexPath) {
-        if let cell = dataSource?.pagingView(self, cellForItemAtIndexPath: indexPath) {
-            contentView.removeContentCell()
-            contentView.addContentCell(cell, indexPath: indexPath)
-        }
-    }
-    
-    private func willDisplayView(contentView: ContentView) {
-        if let cell = contentView.cell {
-            pagingViewDelegate?.pagingView?(self, willDisplayCell: cell, forItemAtIndexPath: cell.indexPath)
-        }
-    }
-    
-    private func didEndDisplayingView(contentView: ContentView) {
-        if let cell = contentView.cell {
-            pagingViewDelegate?.pagingView?(self, didEndDisplayingCell: cell, forItemAtIndexPath: cell.indexPath)
-        }
-    }
-    
-    private func indexPathAtPosition(position: Position, indexPath: NSIndexPath) -> NSIndexPath {
-        var section = indexPath.section
-        var item = indexPath.item
-        
-        switch position {
-        case .Left:
-            if --item < 0 {
-                if --section < 0 {
-                    section = sectionCount - 1
-                }
-                item = itemCountInSection[section]! - 1
-            }
+        func layoutPagingViewContent(contentView: ContentView) {
+            addSubview(contentView)
+            contentView.translatesAutoresizingMaskIntoConstraints = false
             
-            return NSIndexPath(forItem: item, inSection: section)
-        case .Right:
-            if ++item >= itemCountInSection[section] {
-                if ++section >= sectionCount {
-                    section = 0
-                }
-                item = 0
-            }
+            let width = NSLayoutConstraint(item: self,
+                attribute: .Width,
+                relatedBy: .Equal,
+                toItem: contentView,
+                attribute: .Width,
+                multiplier: 1,
+                constant: CGFloat(pagingMargin + pagingInset) * 2)
+            addConstraints([width])
             
-            return NSIndexPath(forItem: item, inSection: section)
-        case .Center, .Same:
-            return indexPath
+            let views = [contentKey: contentView, superKey: self]
+            let format = "V:|[\(contentKey)(==\(superKey))]|"
+            addConstraintsWithVisualFormat(format, metrics: nil, views: views)
         }
-    }
-    
-    private func setupPagingContentView() {
-        let pageCount = 3
         
-        for _ in 0..<pageCount {
+        let pagingSpace = CGFloat(pagingInset + pagingMargin)
+        
+        for _ in 0..<pagingContentCount {
             let contentView = ContentView(frame: bounds)
             layoutPagingViewContent(contentView)
             
-            let constraints: [NSLayoutConstraint]
-            if let lastContent = pagingContents.last {
-                constraints = NSLayoutConstraint.constraintsWithVisualFormat("[leftView][rightView]", options: [], metrics: nil, views: ["leftView": lastContent, "rightView": contentView])
-            } else {
-                constraints = NSLayoutConstraint.constraintsWithVisualFormat("|[subview]", options: [], metrics: nil, views: ["subview": contentView])
-            }
-            addConstraints(constraints)
+            var views = [contentKey: contentView]
+            var metrics: [String: AnyObject]? = nil
+            let format: String
             
+            if let lastContent = pagingContents.last {
+                views[lastContentKey] = lastContent
+                metrics = [spaceKey: pagingMargin * 2]
+                format = "[\(lastContentKey)]-\(spaceKey)-[\(contentKey)]"
+            } else {
+                metrics = [spaceKey: pagingSpace - contentInset.left]
+                format = "|-\(spaceKey)-[\(contentKey)]"
+            }
+            
+            addConstraintsWithVisualFormat(format, metrics: metrics, views: views)
             pagingContents.append(contentView)
         }
         
         if let lastContent = pagingContents.last {
-            let constraints = NSLayoutConstraint.constraintsWithVisualFormat("[subview]|", options: [], metrics: nil, views: ["subview": lastContent])
-            addConstraints(constraints)
+            let views = [lastContentKey: lastContent]
+            let metrics = [spaceKey: pagingSpace - contentInset.right]
+            let format = "[\(lastContentKey)]-\(spaceKey)-|"
+            addConstraintsWithVisualFormat(format, metrics: metrics, views: views)
         }
     }
     
-    private func layoutPagingViewContent(contentView: ContentView) {
-        addSubview(contentView)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let horizontal = NSLayoutConstraint.constraintsWithVisualFormat("[subview(==superview)]", options: [], metrics: nil, views: ["superview": self, "subview": contentView])
-        let vertical = NSLayoutConstraint.constraintsWithVisualFormat("V:|[subview(==superview)]|", options: [], metrics: nil, views: ["superview": self, "subview": contentView])
-        addConstraints(horizontal + vertical)
+    func removeContentView() {
+        while let view = pagingContents.popLast() {
+            view.removeFromSuperview()
+        }
     }
 }
 
+// MARK: - Visibility
 extension PagingView {
-    private func visibleContents() -> [UIView] {
+    func visibleContents() -> [UIView] {
         let visibleRect = CGRect(origin: contentOffset, size: bounds.size)
         
         return pagingContents.filter {
@@ -441,25 +489,25 @@ extension PagingView {
         }
     }
     
-    private func visibleContents<T>() -> [T] {
+    func visibleContents<T>() -> [T] {
         return visibleContents().filter { $0 is T }.map { $0 as! T }
     }
     
-    func visibleCells() -> [Cell] {
+    public func visibleCells() -> [PagingViewCell] {
         let views = visibleContents().map { ($0 as? ContentView)?.cell }
         
         return views.filter { $0 != nil }.map { $0! }
     }
     
-    func visibleCells<T>() -> [T] {
+    public func visibleCells<T>() -> [T] {
         return visibleCells().filter { $0 is T }.map { $0 as! T }
     }
     
-    func visibleCenterCell() -> PagingViewCell? {
+    public func visibleCenterCell() -> PagingViewCell? {
         return centerContentView.cell
     }
     
-    func visibleCenterCell<T>() -> T? {
+    public func visibleCenterCell<T>() -> T? {
         return centerContentView.cell as? T
     }
 }

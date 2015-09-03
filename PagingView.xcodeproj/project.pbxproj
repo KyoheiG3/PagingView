@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C768D4AC1B9605A60058EDE3 /* PagingView.h in Headers */ = {isa = PBXBuildFile; fileRef = C768D4AB1B9605A60058EDE3 /* PagingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C768D4B51B9606060058EDE3 /* PagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4B41B9606060058EDE3 /* PagingView.swift */; settings = {ASSET_TAGS = (); }; };
+		C768D4DD1B960A5A0058EDE3 /* PagingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4DC1B960A5A0058EDE3 /* PagingViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -16,6 +17,7 @@
 		C768D4AB1B9605A60058EDE3 /* PagingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PagingView.h; sourceTree = "<group>"; };
 		C768D4AD1B9605A60058EDE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C768D4B41B9606060058EDE3 /* PagingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingView.swift; sourceTree = "<group>"; };
+		C768D4DC1B960A5A0058EDE3 /* PagingViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +52,7 @@
 			children = (
 				C768D4AB1B9605A60058EDE3 /* PagingView.h */,
 				C768D4B41B9606060058EDE3 /* PagingView.swift */,
+				C768D4DC1B960A5A0058EDE3 /* PagingViewCell.swift */,
 				C768D4AD1B9605A60058EDE3 /* Info.plist */,
 			);
 			path = PagingView;
@@ -134,6 +137,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C768D4DD1B960A5A0058EDE3 /* PagingViewCell.swift in Sources */,
 				C768D4B51B9606060058EDE3 /* PagingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
