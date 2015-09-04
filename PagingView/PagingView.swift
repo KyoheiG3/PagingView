@@ -83,13 +83,13 @@ public class PagingView: UIScrollView {
     private var reloadingIndexPath: NSIndexPath?
     
     private var leftContentView: ContentView {
-        return pagingContentAtPosition(.Left)
+        return contentViewAtPosition(.Left)
     }
     private var centerContentView: ContentView {
-        return pagingContentAtPosition(.Center)
+        return contentViewAtPosition(.Center)
     }
     private var rightContentView: ContentView {
-        return pagingContentAtPosition(.Right)
+        return contentViewAtPosition(.Right)
     }
     
     private var pagingViewDelegate: PagingViewDelegate? {
@@ -116,12 +116,12 @@ public class PagingView: UIScrollView {
         scrollsToTop = false
     }
     
-    func pagingContentAtPosition(position: Position) -> ContentView {
+    func contentViewAtPosition(position: Position) -> ContentView {
         return pagingContents[position.numberOfPages()]
     }
     
     func contentOffsetXAtPosition(position: Position) -> CGFloat {
-        let view = pagingContentAtPosition(position)
+        let view = contentViewAtPosition(position)
         let pagingSpace = CGFloat(pagingInset + pagingMargin)
         return view.frame.origin.x - pagingSpace
     }
@@ -179,11 +179,9 @@ public class PagingView: UIScrollView {
     }
     
     /// To scroll at Position. Cell configure is performed at NSIndexPath.
-    public func setContentPosition(position: Position, indexPath: NSIndexPath? = nil, animated: Bool = false) {
+    public func scrollToPosition(position: Position, indexPath: NSIndexPath? = nil, animated: Bool = false) {
         guard position != .Center else {
-            configureNextContentAtPosition(.Center)
-            configureNextContentAtPosition(.Left)
-            configureNextContentAtPosition(.Right)
+            configureAtPosition(.Center, toIndexPath: indexPath)
             return
         }
         
@@ -196,20 +194,11 @@ public class PagingView: UIScrollView {
             return
         }
         
-        let toIndexPath: NSIndexPath
-        if position == .Right {
-            toIndexPath = indexPathAtPosition(.Left, indexPath: indexPath)
-        } else if position == .Left {
-            toIndexPath = indexPathAtPosition(.Right, indexPath: indexPath)
-        } else {
-            toIndexPath = indexPath
-        }
-        
-        configureNextContentAtPosition(.Center, toIndexPath: toIndexPath)
-        configureNextContentAtPosition(position)
+        configureAtPosition(position, toIndexPath: indexPath)
     }
     
-    func configureNextContentAtPosition(position: Position, toIndexPath: NSIndexPath? = nil) {
+    /// Configure cell of Position. IndexPath of cell in the center if indexPath is nil.
+    public func configureAtPosition(position: Position, toIndexPath: NSIndexPath? = nil) {
         let indexPath: NSIndexPath
         
         if let toIndexPath = toIndexPath {
@@ -222,16 +211,9 @@ public class PagingView: UIScrollView {
             indexPath = indexPathAtPosition(position, indexPath: centerCell.indexPath)
         }
         
-        let contentView = pagingContentAtPosition(position)
+        let contentView = contentViewAtPosition(position)
         if contentView.cell?.indexPath != indexPath {
             configureView(contentView, indexPath: indexPath)
-        }
-    }
-    
-    func configureView(contentView: ContentView, indexPath: NSIndexPath) {
-        contentView.removeContentCell()
-        if let cell = dataSource?.pagingView(self, cellForItemAtIndexPath: indexPath) {
-            contentView.addContentCell(cell, indexPath: indexPath)
         }
     }
     
@@ -260,6 +242,13 @@ public class PagingView: UIScrollView {
             return NSIndexPath(forItem: item, inSection: section)
         case .Center:
             return indexPath
+        }
+    }
+    
+    func configureView(contentView: ContentView, indexPath: NSIndexPath) {
+        contentView.removeContentCell()
+        if let cell = dataSource?.pagingView(self, cellForItemAtIndexPath: indexPath) {
+            contentView.addContentCell(cell, indexPath: indexPath)
         }
     }
 }
@@ -337,7 +326,7 @@ extension PagingView {
         let visibleOffset = CGRect(origin: contentOffset, size: bounds.size)
         
         func endDisplay(position: Position) {
-            let view = pagingContentAtPosition(position)
+            let view = contentViewAtPosition(position)
             let visible = view.visible(visibleOffset)
             
             guard let cell = view.cell where visible == cell.hidden && visible == false else {
@@ -348,7 +337,7 @@ extension PagingView {
         }
         
         func willDisplay(position: Position) {
-            let view = pagingContentAtPosition(position)
+            let view = contentViewAtPosition(position)
             let visible = view.visible(visibleOffset)
             
             guard (view.cell == nil || visible == view.cell?.hidden) && visible == true else {
@@ -356,7 +345,7 @@ extension PagingView {
             }
             
             if view.cell == nil {
-                configureNextContentAtPosition(position)
+                configureAtPosition(position)
             }
             
             willDisplayView(view)
