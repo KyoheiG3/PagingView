@@ -76,7 +76,7 @@ public class PagingView: UIScrollView {
     
     private let pagingContentCount = 3
     private var sectionCount = 1
-    private var itemCountInSection: [Int: Int] = [:]
+    private var itemCountInSection: [Int] = []
     private var pagingReuseQueue = PagingViewCell.ReuseQueue()
     private var registeredObject: [String: AnyObject] = [:]
     private var pagingContents: [ContentView] = []
@@ -171,11 +171,11 @@ public class PagingView: UIScrollView {
     /// Information about the current state of the paging view.
     
     public func numberOfSections() -> Int {
-        return sectionCount
+        return dataSource?.numberOfSectionsInPagingView?(self) ?? 1
     }
     
     public func numberOfItemsInSection(section: Int) -> Int {
-        return itemCountInSection[section] ?? 0
+        return dataSource?.pagingView(self, numberOfItemsInSection: section) ?? 0
     }
     
     /// To scroll at Position. Cell configure is performed at NSIndexPath.
@@ -220,21 +220,32 @@ public class PagingView: UIScrollView {
     func indexPathAtPosition(position: Position, indexPath: NSIndexPath) -> NSIndexPath {
         var section = indexPath.section
         var item = indexPath.item
+        let sections = forceSections()
+        
+        let sectionIndex = sections.indexOf(indexPath.section)
         
         switch position {
         case .Left:
             if --item < 0 {
-                if --section < 0 {
-                    section = sectionCount - 1
+                if var index = sectionIndex {
+                    if --index < 0, let last = sections.last {
+                        section = last
+                    } else {
+                        section = sections[index]
+                    }
                 }
-                item = numberOfItemsInSection(section) - 1
+                item = itemCountInSection[section] - 1
             }
             
             return NSIndexPath(forItem: item, inSection: section)
         case .Right:
-            if ++item >= numberOfItemsInSection(section) {
-                if ++section >= sectionCount {
-                    section = 0
+            if ++item >= itemCountInSection[section] {
+                if var index = sectionIndex {
+                    if ++index >= sections.count, let first = sections.first {
+                        section = first
+                    } else {
+                        section = sections[index]
+                    }
                 }
                 item = 0
             }
@@ -242,6 +253,18 @@ public class PagingView: UIScrollView {
             return NSIndexPath(forItem: item, inSection: section)
         case .Center:
             return indexPath
+        }
+    }
+    
+    func forceSections() -> [Int] {
+        typealias Item = (index: Int, item: Int)
+        
+        return itemCountInSection.enumerate().reduce([]) { (acc: [Int], current: Item) -> [Int] in
+            if current.item > 0 {
+                return acc + [current.index]
+            }
+            
+            return acc
         }
     }
     
