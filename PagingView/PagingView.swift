@@ -154,7 +154,7 @@ public class PagingView: UIScrollView {
         registeredObject[identifier] = nib
     }
     
-    public func registerClass<T: UIView>(viewClass: T.Type, forCellWithReuseIdentifier identifier: String) {
+    public func registerClass<T: PagingViewCell>(viewClass: T.Type, forCellWithReuseIdentifier identifier: String) {
         registeredObject[identifier] = viewClass
     }
     
