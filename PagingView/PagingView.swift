@@ -107,20 +107,6 @@ public class PagingView: UIScrollView {
     /// Inset of content relative to size of PagingView. Value of two times than of pagingInset to set for the left and right of contentInset.
     public var pagingInset: UInt = 0
     
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        pagingEnabled = true
-        scrollsToTop = false
-    }
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        pagingEnabled = true
-        scrollsToTop = false
-    }
-    
     func contentViewAtPosition(position: Position) -> ContentView {
         return pagingContents[position.numberOfPages()]
     }
@@ -338,6 +324,9 @@ extension PagingView {
         
         if needsReload {
             needsReload = false
+            pagingEnabled = true
+            scrollsToTop = false
+            
             setupPagingContentView()
             reloadContentView()
         }
@@ -345,23 +334,19 @@ extension PagingView {
         let beforeSize = contentSize
         super.layoutSubviews()
         
-        guard pagingContents.count > 0 else {
-            return
+        if pagingContents.count > 0 {
+            if beforeSize != contentSize {
+                contentSize = CGSize(width: floor(contentSize.width), height: floor(contentSize.height))
+                let offsetX = contentOffsetXAtPosition(.Center)
+                setContentOffset(CGPoint(x: offsetX, y: contentOffset.y), animated: false)
+            } else {
+                infiniteIfNeeded()
+            }
+            
+            if dataSource != nil {
+                changeDisplayStatusForCell()
+            }
         }
-        
-        if beforeSize != contentSize {
-            contentSize = CGSize(width: floor(contentSize.width), height: floor(contentSize.height))
-            let offsetX = contentOffsetXAtPosition(.Center)
-            setContentOffset(CGPoint(x: offsetX, y: contentOffset.y), animated: false)
-        } else {
-            infiniteIfNeeded()
-        }
-        
-        guard dataSource != nil else {
-            return
-        }
-        
-        changeDisplayStatusForCell()
     }
     
     func infiniteIfNeeded() {
