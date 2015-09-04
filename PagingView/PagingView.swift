@@ -56,6 +56,10 @@ public class PagingView: UIScrollView {
         }
     }
     
+    enum PagingViewError: ErrorType {
+        case IndexPathRange(String)
+    }
+    
     /// Position of contents of PagingView.
     public enum Position {
         case Left
@@ -81,6 +85,7 @@ public class PagingView: UIScrollView {
     private var registeredObject: [String: AnyObject] = [:]
     private var pagingContents: [ContentView] = []
     private var reloadingIndexPath: NSIndexPath?
+    private var needsReload: Bool = true
     
     private var leftContentView: ContentView {
         return contentViewAtPosition(.Left)
@@ -161,11 +166,10 @@ public class PagingView: UIScrollView {
     /// discard the dataSource and delegate data and requery as necessary.
     public func reloadData() {
         reloadingIndexPath = centerContentView.cell?.indexPath
-        leftContentView.removeContentCell()
-        centerContentView.removeContentCell()
-        rightContentView.removeContentCell()
+        removeContentView()
         
-        setNeedsDisplay()
+        needsReload = true
+        setNeedsLayout()
     }
     
     /// Information about the current state of the paging view.
@@ -202,6 +206,13 @@ public class PagingView: UIScrollView {
         let indexPath: NSIndexPath
         
         if let toIndexPath = toIndexPath {
+            do {
+                try containsIndexPath(toIndexPath)
+            } catch PagingViewError.IndexPathRange(let message) {
+                fatalError(message)
+            } catch {
+                fatalError("IndexPath is out of range")
+            }
             indexPath = toIndexPath
         } else {
             guard let centerCell = centerContentView.cell else {
@@ -213,6 +224,7 @@ public class PagingView: UIScrollView {
         
         let contentView = contentViewAtPosition(position)
         if contentView.cell?.indexPath != indexPath {
+            contentView.removeContentCell()
             configureView(contentView, indexPath: indexPath)
         }
     }
@@ -269,9 +281,51 @@ public class PagingView: UIScrollView {
     }
     
     func configureView(contentView: ContentView, indexPath: NSIndexPath) {
-        contentView.removeContentCell()
         if let cell = dataSource?.pagingView(self, cellForItemAtIndexPath: indexPath) {
             contentView.addContentCell(cell, indexPath: indexPath)
+        }
+    }
+    
+    func removeContentView() {
+        while let view = pagingContents.popLast() {
+            view.removeContentCell()
+            view.removeFromSuperview()
+        }
+    }
+    
+    func reloadContentView() {
+        sectionCount = numberOfSections()
+        itemCountInSection = [Int](0..<sectionCount).map {
+            self.numberOfItemsInSection($0)
+        }
+        
+        var configureIndexPath: NSIndexPath?
+        if let indexPath = dataSource?.indexPathOfStartingInPagingView?(self) ?? reloadingIndexPath {
+            do {
+                try containsIndexPath(indexPath)
+            } catch PagingViewError.IndexPathRange(let message) {
+                fatalError(message)
+            } catch {
+                fatalError("IndexPath is out of range")
+            } 
+            configureIndexPath = indexPath
+        } else {
+            if let section = forceSections().first {
+                configureIndexPath = NSIndexPath(forItem: 0, inSection: section)
+            }
+        }
+        
+        reloadingIndexPath = nil
+        
+        if let indexPath = configureIndexPath {
+            configureView(centerContentView, indexPath: indexPath)
+            willDisplayView(centerContentView)
+        }
+    }
+    
+    func containsIndexPath(indexPath: NSIndexPath) throws {
+        if indexPath.section >= sectionCount || indexPath.item >= itemCountInSection[indexPath.section] {
+            throw PagingViewError.IndexPathRange("IndexPath is out of range: indexPath = \(indexPath), Section of upper limit = \(sectionCount), Section \(indexPath.section) of upper limit = \(itemCountInSection[indexPath.section])")
         }
     }
 }
@@ -279,6 +333,15 @@ public class PagingView: UIScrollView {
 // MARK: - Layout and Display
 extension PagingView {
     public override func layoutSubviews() {
+        contentInset.left = -CGFloat(pagingInset * 2)
+        contentInset.right = -CGFloat(pagingInset * 2)
+        
+        if needsReload {
+            needsReload = false
+            setupPagingContentView()
+            reloadContentView()
+        }
+        
         let beforeSize = contentSize
         super.layoutSubviews()
         
@@ -357,6 +420,7 @@ extension PagingView {
             }
             
             didEndDisplayingView(view)
+            view.removeContentCell()
         }
         
         func willDisplay(position: Position) {
@@ -393,36 +457,6 @@ extension PagingView {
             cell.hidden = true
             pagingViewDelegate?.pagingView?(self, didEndDisplayingCell: cell, forItemAtIndexPath: cell.indexPath)
         }
-    }
-    
-    public override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
-        
-        if let count = dataSource?.numberOfSectionsInPagingView?(self) {
-            sectionCount = count
-        }
-        
-        for section in 0..<sectionCount {
-            if let count = dataSource?.pagingView(self, numberOfItemsInSection: section) {
-                itemCountInSection[section] = count
-            }
-        }
-        
-        contentInset.left = -CGFloat(pagingInset * 2)
-        contentInset.right = -CGFloat(pagingInset * 2)
-        
-        removeContentView()
-        setupPagingContentView()
-        
-        guard itemCountInSection.count >= 2 || (itemCountInSection.count >= 1 && numberOfItemsInSection(0) >= 1) else {
-            return
-        }
-        
-        let indexPath = dataSource?.indexPathOfStartingInPagingView?(self) ?? reloadingIndexPath ?? NSIndexPath(forItem: 0, inSection: 0)
-        reloadingIndexPath = nil
-        
-        configureView(centerContentView, indexPath: indexPath)
-        willDisplayView(centerContentView)
     }
     
     func setupPagingContentView() {
@@ -483,12 +517,6 @@ extension PagingView {
         
         layoutPagingViewContent(nil, lastContentView: pagingContents.last)
         addConstraints(constraints)
-    }
-    
-    func removeContentView() {
-        while let view = pagingContents.popLast() {
-            view.removeFromSuperview()
-        }
     }
 }
 
