@@ -1,6 +1,7 @@
 language: objective-c
-osx_image: xcode7
+os: osx
 xcode_project: ./PagingViewExample/PagingViewExample.xcodeproj
 xcode_scheme: PagingViewExample
-xcode_sdk: iphonesimulator
-script: xcodebuild -destination 'platform=iOS Simulator,name=iPhone 6,OS=latest' test
+osx_image: xcode7
+script:
+  - xcodebuild -project ./PagingViewExample/PagingViewExample.xcodeproj -scheme PagingViewExample -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 6,OS=latest' test
