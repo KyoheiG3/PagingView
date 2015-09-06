@@ -8,13 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		C768D4C31B96077C0058EDE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4C21B96077C0058EDE3 /* AppDelegate.swift */; };
-		C768D4C51B96077C0058EDE3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4C41B96077C0058EDE3 /* ViewController.swift */; };
 		C768D4C81B96077C0058EDE3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C768D4C61B96077C0058EDE3 /* Main.storyboard */; };
 		C768D4CA1B96077C0058EDE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C768D4C91B96077C0058EDE3 /* Assets.xcassets */; };
 		C768D4CD1B96077C0058EDE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C768D4CB1B96077C0058EDE3 /* LaunchScreen.storyboard */; };
 		C768D4F21B982B430058EDE3 /* PagingViewExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4F11B982B430058EDE3 /* PagingViewExampleUITests.swift */; };
 		C768D50A1B9832A80058EDE3 /* PagingView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C768D4D91B9607AF0058EDE3 /* PagingView.framework */; };
 		C768D50B1B9832A80058EDE3 /* PagingView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C768D4D91B9607AF0058EDE3 /* PagingView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C768D5101B9836EF0058EDE3 /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D50F1B9836EF0058EDE3 /* TestingViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		C768D5121B9837230058EDE3 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D5111B9837230058EDE3 /* DemoViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		C768D5181B983FFC0058EDE3 /* TestingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D5171B983FFC0058EDE3 /* TestingViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		C768D51A1B9840490058EDE3 /* TestingViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C768D5191B9840490058EDE3 /* TestingViewCell.xib */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +61,6 @@
 /* Begin PBXFileReference section */
 		C768D4BF1B96077C0058EDE3 /* PagingViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PagingViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C768D4C21B96077C0058EDE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C768D4C41B96077C0058EDE3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C768D4C71B96077C0058EDE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C768D4C91B96077C0058EDE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C768D4CC1B96077C0058EDE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -67,6 +69,10 @@
 		C768D4EF1B982B430058EDE3 /* PagingViewExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PagingViewExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C768D4F11B982B430058EDE3 /* PagingViewExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingViewExampleUITests.swift; sourceTree = "<group>"; };
 		C768D4F31B982B430058EDE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C768D50F1B9836EF0058EDE3 /* TestingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestingViewController.swift; sourceTree = "<group>"; };
+		C768D5111B9837230058EDE3 /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
+		C768D5171B983FFC0058EDE3 /* TestingViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestingViewCell.swift; sourceTree = "<group>"; };
+		C768D5191B9840490058EDE3 /* TestingViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestingViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,11 +117,14 @@
 			isa = PBXGroup;
 			children = (
 				C768D4C21B96077C0058EDE3 /* AppDelegate.swift */,
-				C768D4C41B96077C0058EDE3 /* ViewController.swift */,
+				C768D5111B9837230058EDE3 /* DemoViewController.swift */,
+				C768D50F1B9836EF0058EDE3 /* TestingViewController.swift */,
 				C768D4C61B96077C0058EDE3 /* Main.storyboard */,
 				C768D4C91B96077C0058EDE3 /* Assets.xcassets */,
 				C768D4CB1B96077C0058EDE3 /* LaunchScreen.storyboard */,
 				C768D4CE1B96077C0058EDE3 /* Info.plist */,
+				C768D5171B983FFC0058EDE3 /* TestingViewCell.swift */,
+				C768D5191B9840490058EDE3 /* TestingViewCell.xib */,
 			);
 			path = PagingViewExample;
 			sourceTree = "<group>";
@@ -236,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C768D4CD1B96077C0058EDE3 /* LaunchScreen.storyboard in Resources */,
+				C768D51A1B9840490058EDE3 /* TestingViewCell.xib in Resources */,
 				C768D4CA1B96077C0058EDE3 /* Assets.xcassets in Resources */,
 				C768D4C81B96077C0058EDE3 /* Main.storyboard in Resources */,
 			);
@@ -255,8 +265,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C768D4C51B96077C0058EDE3 /* ViewController.swift in Sources */,
+				C768D5121B9837230058EDE3 /* DemoViewController.swift in Sources */,
+				C768D5181B983FFC0058EDE3 /* TestingViewCell.swift in Sources */,
 				C768D4C31B96077C0058EDE3 /* AppDelegate.swift in Sources */,
+				C768D5101B9836EF0058EDE3 /* TestingViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
