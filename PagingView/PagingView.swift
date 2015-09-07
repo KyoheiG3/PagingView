@@ -327,8 +327,8 @@ public class PagingView: UIScrollView {
 // MARK: - Layout and Display
 extension PagingView {
     public override func layoutSubviews() {
-        contentInset.left = -CGFloat(pagingInset * 2)
-        contentInset.right = -CGFloat(pagingInset * 2)
+        let horizontal = -CGFloat(pagingInset * 2)
+        contentInset = UIEdgeInsets(top: 0, left: horizontal, bottom: 0, right: horizontal)
         
         if needsReload {
             needsReload = false
