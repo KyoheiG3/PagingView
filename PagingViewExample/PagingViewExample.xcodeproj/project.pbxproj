@@ -18,6 +18,8 @@
 		C768D5121B9837230058EDE3 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D5111B9837230058EDE3 /* DemoViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		C768D5181B983FFC0058EDE3 /* TestingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D5171B983FFC0058EDE3 /* TestingViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 		C768D51A1B9840490058EDE3 /* TestingViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C768D5191B9840490058EDE3 /* TestingViewCell.xib */; settings = {ASSET_TAGS = (); }; };
+		C7EAC5FF1B9D252000414789 /* DemoViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7EAC5FE1B9D252000414789 /* DemoViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		C7EAC6011B9D252C00414789 /* DemoViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7EAC6001B9D252C00414789 /* DemoViewCell.xib */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		C768D5111B9837230058EDE3 /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		C768D5171B983FFC0058EDE3 /* TestingViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestingViewCell.swift; sourceTree = "<group>"; };
 		C768D5191B9840490058EDE3 /* TestingViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestingViewCell.xib; sourceTree = "<group>"; };
+		C7EAC5FE1B9D252000414789 /* DemoViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewCell.swift; sourceTree = "<group>"; };
+		C7EAC6001B9D252C00414789 /* DemoViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DemoViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +129,8 @@
 				C768D4CE1B96077C0058EDE3 /* Info.plist */,
 				C768D5171B983FFC0058EDE3 /* TestingViewCell.swift */,
 				C768D5191B9840490058EDE3 /* TestingViewCell.xib */,
+				C7EAC5FE1B9D252000414789 /* DemoViewCell.swift */,
+				C7EAC6001B9D252C00414789 /* DemoViewCell.xib */,
 			);
 			path = PagingViewExample;
 			sourceTree = "<group>";
@@ -246,6 +252,7 @@
 			files = (
 				C768D4CD1B96077C0058EDE3 /* LaunchScreen.storyboard in Resources */,
 				C768D51A1B9840490058EDE3 /* TestingViewCell.xib in Resources */,
+				C7EAC6011B9D252C00414789 /* DemoViewCell.xib in Resources */,
 				C768D4CA1B96077C0058EDE3 /* Assets.xcassets in Resources */,
 				C768D4C81B96077C0058EDE3 /* Main.storyboard in Resources */,
 			);
@@ -266,6 +273,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C768D5121B9837230058EDE3 /* DemoViewController.swift in Sources */,
+				C7EAC5FF1B9D252000414789 /* DemoViewCell.swift in Sources */,
 				C768D5181B983FFC0058EDE3 /* TestingViewCell.swift in Sources */,
 				C768D4C31B96077C0058EDE3 /* AppDelegate.swift in Sources */,
 				C768D5101B9836EF0058EDE3 /* TestingViewController.swift in Sources */,

@@ -6,24 +6,55 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Item 2-->
-        <scene sceneID="StQ-AS-v7Y">
+        <!--Demo-->
+        <scene sceneID="yIM-xR-40e">
             <objects>
-                <viewController id="K1h-M4-PbB" customClass="DemoViewController" customModule="PagingViewExample" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController id="9he-Ex-98x" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Demo" id="aKl-kc-J9g"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="376-FX-4fI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="m29-Ds-Hk6" kind="relationship" relationship="rootViewController" id="BJ0-M6-vnZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vib-IP-2GN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="248" y="644"/>
+        </scene>
+        <!--Demo View Controller-->
+        <scene sceneID="TSo-M4-ucw">
+            <objects>
+                <viewController id="m29-Ds-Hk6" customClass="DemoViewController" customModule="PagingViewExample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="HRw-r5-M7C"/>
-                        <viewControllerLayoutGuide type="bottom" id="3f8-WM-dkS"/>
+                        <viewControllerLayoutGuide type="top" id="E49-wy-KMm"/>
+                        <viewControllerLayoutGuide type="bottom" id="cHJ-bW-neb"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Phc-5j-bzf">
+                    <view key="view" contentMode="scaleToFill" id="YBk-4p-K09">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vuh-iv-b76" customClass="PagingView" customModule="PagingView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="vuh-iv-b76" secondAttribute="trailing" id="Hlj-8M-eVP"/>
+                            <constraint firstItem="vuh-iv-b76" firstAttribute="top" secondItem="YBk-4p-K09" secondAttribute="top" id="Hm7-2A-BsK"/>
+                            <constraint firstItem="vuh-iv-b76" firstAttribute="leading" secondItem="YBk-4p-K09" secondAttribute="leading" id="ScI-qT-sXL"/>
+                            <constraint firstAttribute="bottom" secondItem="vuh-iv-b76" secondAttribute="bottom" id="nmn-N4-KTX"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="Q4a-b0-oME"/>
+                    <navigationItem key="navigationItem" id="LiA-MS-Tso"/>
+                    <connections>
+                        <outlet property="pagingView" destination="vuh-iv-b76" id="X3J-Zx-N39"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tsG-kP-qkl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N2K-KI-Efq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="248" y="590"/>
+            <point key="canvasLocation" x="914" y="644"/>
         </scene>
         <!--Test-->
         <scene sceneID="G55-0B-LvB">
@@ -188,7 +219,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="i4n-Mn-RMr" kind="relationship" relationship="viewControllers" id="sjN-1I-MeA"/>
-                        <segue destination="K1h-M4-PbB" kind="relationship" relationship="viewControllers" id="Fpf-XY-wdf"/>
+                        <segue destination="9he-Ex-98x" kind="relationship" relationship="viewControllers" id="mkr-kh-TvL"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gyk-Ia-f5X" userLabel="First Responder" sceneMemberID="firstResponder"/>
