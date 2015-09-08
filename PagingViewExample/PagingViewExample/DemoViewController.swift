@@ -19,6 +19,8 @@ class DemoViewController: UIViewController {
 
         pagingView.dataSource = self
         pagingView.delegate = self
+        pagingView.pagingMargin = 10
+        pagingView.pagingInset = 30
         
         let nib = UINib(nibName: "DemoViewCell", bundle: nil)
         pagingView.registerNib(nib, forCellWithReuseIdentifier: "DemoViewCell")
@@ -27,20 +29,6 @@ class DemoViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-        
-        coordinator.animateAlongsideTransition({ context in
-            if size.width <= size.height {
-                self.pagingView.pagingMargin = 0
-                self.pagingView.pagingInset = 0
-            } else {
-                self.pagingView.pagingMargin = 20
-                self.pagingView.pagingInset = 40
-            }
-        }, completion: nil)
     }
 }
 

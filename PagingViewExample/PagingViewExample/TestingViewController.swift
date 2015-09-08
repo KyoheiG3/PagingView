@@ -28,8 +28,6 @@ class TestingViewController: UIViewController {
         
         pagingView.dataSource = self
         pagingView.delegate = self
-        pagingView.pagingMargin = 10
-        pagingView.pagingInset = 30
         
         let nib = UINib(nibName: "TestingViewCell", bundle: nil)
         pagingView.registerNib(nib, forCellWithReuseIdentifier: "RegisterNibCell")
@@ -45,8 +43,13 @@ class TestingViewController: UIViewController {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         
         coordinator.animateAlongsideTransition({ context in
-            self.pagingView.pagingMargin = UInt(arc4random_uniform(3)) * 10
-            self.pagingView.pagingInset = UInt(arc4random_uniform(3)) * 10
+            if size.width <= size.height {
+                self.pagingView?.pagingMargin = 0
+                self.pagingView?.pagingInset = 0
+            } else {
+                self.pagingView?.pagingMargin = 20
+                self.pagingView?.pagingInset = 40
+            }
         }, completion: nil)
     }
 }
