@@ -106,6 +106,7 @@ public class PagingView: UIScrollView {
     private var pagingContents: [ContentView] = []
     private var reloadingIndexPath: NSIndexPath?
     private var needsReload: Bool = true
+    private var needsLayout: Bool = false
     private var constraintGroup: ConstraintGroup = ConstraintGroup()
     
     private var leftContentView: ContentView? {
@@ -124,9 +125,13 @@ public class PagingView: UIScrollView {
     
     @IBOutlet public weak var dataSource: PagingViewDataSource?
     /// Margin between the content.
-    public var pagingMargin: UInt = 0
+    public var pagingMargin: UInt = 0 {
+        didSet { invalidateLayout() }
+    }
     /// Inset of content relative to size of PagingView. Value of two times than of pagingInset to set for the left and right of contentInset.
-    public var pagingInset: UInt = 0
+    public var pagingInset: UInt = 0 {
+        didSet { invalidateLayout() }
+    }
     
     func contentViewAtPosition(position: Position) -> ContentView? {
         let page = position.numberOfPages()
@@ -185,6 +190,11 @@ public class PagingView: UIScrollView {
         removeContentView()
         
         needsReload = true
+        setNeedsLayout()
+    }
+    
+    func invalidateLayout() {
+        needsLayout = true
         setNeedsLayout()
     }
     
@@ -349,16 +359,21 @@ public class PagingView: UIScrollView {
 // MARK: - Layout and Display
 extension PagingView {
     public override func layoutSubviews() {
-        let horizontal = -CGFloat(pagingInset * 2)
-        contentInset = UIEdgeInsets(top: 0, left: horizontal, bottom: 0, right: horizontal)
-        
-        if needsReload {
-            needsReload = false
+        if needsReload || needsLayout {
+            let horizontal = -CGFloat(pagingInset * 2)
+            contentInset = UIEdgeInsets(top: 0, left: horizontal, bottom: 0, right: horizontal)
             pagingEnabled = true
             scrollsToTop = false
             
-            setupPagingContentView()
-            reloadContentView()
+            if needsReload {
+                setupPagingContentView()
+                reloadContentView()
+            } else if needsLayout {
+                layoutPagingContentView()
+            }
+            
+            needsReload = false
+            needsLayout = false
         }
         
         let beforeSize = contentSize
@@ -534,6 +549,14 @@ extension PagingView {
         
         layoutPagingViewContent(nil, lastContentView: pagingContents.last)
         addConstraints(constraintGroup)
+    }
+    
+    func layoutPagingContentView() {
+        let pagingSpace = CGFloat(pagingInset + pagingMargin)
+        constraintGroup.widths.constant = pagingSpace * 2
+        constraintGroup.betweenSpaces.constant = CGFloat(pagingMargin * 2)
+        constraintGroup.leftSpaces.constant = pagingSpace - contentInset.left
+        constraintGroup.rightSpaces.constant = pagingSpace - contentInset.right
     }
 }
 
