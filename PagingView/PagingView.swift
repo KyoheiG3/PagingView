@@ -60,6 +60,26 @@ public class PagingView: UIScrollView {
         case IndexPathRange(String)
     }
     
+    struct ConstraintGroup {
+        var heights: Constraints = Constraints()
+        var widths: Constraints = Constraints()
+        var betweenSpaces: Constraints = Constraints()
+        var leftSpaces: Constraints = Constraints()
+        var rightSpaces: Constraints = Constraints()
+        
+        func allConstraints() -> Constraints {
+            return heights + widths + betweenSpaces + leftSpaces + rightSpaces
+        }
+        
+        mutating func removeAll() {
+            heights.removeAll()
+            widths.removeAll()
+            betweenSpaces.removeAll()
+            leftSpaces.removeAll()
+            rightSpaces.removeAll()
+        }
+    }
+    
     /// Position of contents of PagingView.
     public enum Position {
         case Left
@@ -86,6 +106,7 @@ public class PagingView: UIScrollView {
     private var pagingContents: [ContentView] = []
     private var reloadingIndexPath: NSIndexPath?
     private var needsReload: Bool = true
+    private var constraintGroup: ConstraintGroup = ConstraintGroup()
     
     private var leftContentView: ContentView? {
         return contentViewAtPosition(.Left)
@@ -160,6 +181,7 @@ public class PagingView: UIScrollView {
     /// discard the dataSource and delegate data and requery as necessary.
     public func reloadData() {
         reloadingIndexPath = centerContentView?.cell?.indexPath
+        constraintGroup.removeAll()
         removeContentView()
         
         needsReload = true
@@ -486,19 +508,18 @@ extension PagingView {
             return constraintsWithFormat("[\(lastContentKey)]-\(spaceKey)-|", metrics: [spaceKey: pagingSpace - contentInset.right], views: [lastContentKey: lastContentView])
         }
         
-        var constraints: [NSLayoutConstraint] = []
         func layoutPagingViewContent(contentView: ContentView?, lastContentView: ContentView?) {
             if let contentView = contentView {
-                constraints.appendContentsOf(widthConstraints(contentView))
-                constraints.appendContentsOf(heightConstraints(contentView))
+                constraintGroup.widths.append(widthConstraints(contentView))
+                constraintGroup.heights.append(heightConstraints(contentView))
                 
                 if let lastContentView = lastContentView {
-                    constraints.appendContentsOf(betweenSpaceConstraints(contentView, lastContentView: lastContentView))
+                    constraintGroup.betweenSpaces.append(betweenSpaceConstraints(contentView, lastContentView: lastContentView))
                 } else {
-                    constraints.appendContentsOf(leftSpaceConstraints(contentView))
+                    constraintGroup.leftSpaces.append(leftSpaceConstraints(contentView))
                 }
             } else if let lastContentView = lastContentView {
-                constraints.appendContentsOf(rightSpaceConstraints(lastContentView))
+                constraintGroup.rightSpaces.append(rightSpaceConstraints(lastContentView))
             }
         }
         
@@ -512,7 +533,7 @@ extension PagingView {
         }
         
         layoutPagingViewContent(nil, lastContentView: pagingContents.last)
-        addConstraints(constraints)
+        addConstraints(constraintGroup)
     }
 }
 
@@ -546,5 +567,16 @@ extension PagingView {
     
     public func visibleCenterCell<T>() -> T? {
         return centerContentView?.cell as? T
+    }
+}
+
+// MARK: - Constraints
+extension PagingView {
+    func addConstraints(constraints: Constraints) {
+        addConstraints(constraints.collection)
+    }
+    
+    func addConstraints(group: ConstraintGroup) {
+        addConstraints(group.allConstraints().collection)
     }
 }

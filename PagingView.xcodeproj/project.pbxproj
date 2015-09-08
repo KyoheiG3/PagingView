@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C73493961B9EA24300D33ED4 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73493951B9EA24300D33ED4 /* Constraints.swift */; settings = {ASSET_TAGS = (); }; };
 		C768D4AC1B9605A60058EDE3 /* PagingView.h in Headers */ = {isa = PBXBuildFile; fileRef = C768D4AB1B9605A60058EDE3 /* PagingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C768D4B51B9606060058EDE3 /* PagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4B41B9606060058EDE3 /* PagingView.swift */; settings = {ASSET_TAGS = (); }; };
 		C768D4DD1B960A5A0058EDE3 /* PagingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4DC1B960A5A0058EDE3 /* PagingViewCell.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C73493951B9EA24300D33ED4 /* Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		C768D4A81B9605A60058EDE3 /* PagingView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagingView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C768D4AB1B9605A60058EDE3 /* PagingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PagingView.h; sourceTree = "<group>"; };
 		C768D4AD1B9605A60058EDE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -50,6 +52,7 @@
 		C768D4AA1B9605A60058EDE3 /* PagingView */ = {
 			isa = PBXGroup;
 			children = (
+				C73493951B9EA24300D33ED4 /* Constraints.swift */,
 				C768D4AB1B9605A60058EDE3 /* PagingView.h */,
 				C768D4B41B9606060058EDE3 /* PagingView.swift */,
 				C768D4DC1B960A5A0058EDE3 /* PagingViewCell.swift */,
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C768D4DD1B960A5A0058EDE3 /* PagingViewCell.swift in Sources */,
+				C73493961B9EA24300D33ED4 /* Constraints.swift in Sources */,
 				C768D4B51B9606060058EDE3 /* PagingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -288,6 +292,7 @@
 				C768D4B21B9605A60058EDE3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
