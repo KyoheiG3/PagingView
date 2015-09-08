@@ -29,6 +29,19 @@ class DemoViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        
+        coordinator.animateAlongsideTransition({ context in
+            if size.width <= size.height {
+                self.pagingView.pagingMargin = 0
+                self.pagingView.pagingInset = 0
+            } else {
+                self.pagingView.pagingMargin = 20
+                self.pagingView.pagingInset = 40
+            }
+        }, completion: nil)
+    }
 }
 
 extension DemoViewController: PagingViewDataSource, PagingViewDelegate, UIScrollViewDelegate {
