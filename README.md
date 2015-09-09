@@ -1,4 +1,4 @@
-# PagingView
+<img src="https://kyoheig3.github.io/PagingView/images/logo.png" alt="LOGO" width="300" />
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/PagingView.svg?style=flat)](http://cocoadocs.org/docsets/PagingView)
@@ -8,6 +8,8 @@
 Infinite paging, Smart auto layout, Interface of similar to UIKit.
 
 #### [Appetize's Demo](https://appetize.io/app/030jqrt4nkm60rc0qu1wrvg4v8)
+
+![Demo](https://kyoheig3.github.io/PagingView/images/image_demo.gif)
 
 ## How to Install PagingView
 
