@@ -11,6 +11,9 @@ Infinite paging, Smart auto layout, Interface of similar to UIKit.
 
 ![Demo](https://kyoheig3.github.io/PagingView/images/image_demo.gif)
 
+## Requirements
+* swift 2.0
+
 ## How to Install PagingView
 
 ### iOS 8+
