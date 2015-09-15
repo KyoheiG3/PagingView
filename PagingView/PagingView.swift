@@ -132,6 +132,9 @@ public class PagingView: UIScrollView {
     public var pagingInset: UInt = 0 {
         didSet { invalidateLayout() }
     }
+    var pagingSpace: CGFloat {
+        return CGFloat(pagingInset + pagingMargin)
+    }
     
     func contentViewAtPosition(position: Position) -> ContentView? {
         let page = position.numberOfPages()
@@ -144,7 +147,6 @@ public class PagingView: UIScrollView {
     
     func contentOffsetXAtPosition(position: Position) -> CGFloat? {
         if let view = contentViewAtPosition(position) {
-            let pagingSpace = CGFloat(pagingInset + pagingMargin)
             return view.frame.origin.x - pagingSpace
         }
         
@@ -497,7 +499,6 @@ extension PagingView {
         let contentKey = "contentView"
         let lastContentKey = "lastContentView"
         let spaceKey = "space"
-        let pagingSpace = CGFloat(pagingInset + pagingMargin)
         
         func constraintsWithFormat(format: String, metrics: [String : AnyObject]? = nil, views: [String : AnyObject]) -> [NSLayoutConstraint] {
             return NSLayoutConstraint.constraintsWithVisualFormat(format, options: [], metrics: metrics, views: views)
@@ -552,7 +553,6 @@ extension PagingView {
     }
     
     func layoutPagingContentView() {
-        let pagingSpace = CGFloat(pagingInset + pagingMargin)
         constraintGroup.widths.constant = pagingSpace * 2
         constraintGroup.betweenSpaces.constant = CGFloat(pagingMargin * 2)
         constraintGroup.leftSpaces.constant = pagingSpace - contentInset.left
