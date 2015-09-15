@@ -412,11 +412,11 @@ extension PagingView {
     func contentOffsetInfiniteIfNeeded(offset: CGPoint) -> CGPoint {
         func xOffset() -> CGFloat? {
             guard let contentOffsetLeft = contentOffsetXAtPosition(.Left),
-                contentOffsetCenter = contentOffsetXAtPosition(.Center),
-                contentOffsetRight = contentOffsetXAtPosition(.Right) else {
+                contentOffsetCenter = contentOffsetXAtPosition(.Center) else {
                     return nil
             }
             
+            let contentOffsetRight = contentSize.width - contentOffsetCenter + contentInset.right
             if offset.x - CGFloat(pagingInset) <= contentOffsetLeft {
                 return offset.x + contentOffsetCenter + contentInset.left
             } else if contentOffsetRight < offset.x + CGFloat(pagingInset) {
@@ -444,33 +444,36 @@ extension PagingView {
     }
     
     func changeDisplayStatusForCell() {
-        let visibleOffset = CGRect(origin: contentOffset, size: bounds.size)
-        
         func endDisplay(position: Position) {
-            let view = contentViewAtPosition(position)
-            let visible = view?.visible(visibleOffset)
-            
-            guard let cell = view?.cell where visible == cell.hidden && visible == false else {
+            guard let view = contentViewAtPosition(position) else {
                 return
             }
             
-            didEndDisplayingView(view)
-            view?.removeContentCell()
+            let rect = CGRect(origin: contentOffset, size: CGSize(width: view.bounds.width + (pagingSpace * 2), height: view.bounds.height))
+            let visible = view.visible(rect)
+            
+            if visible == view.cell?.hidden && visible == false {
+                didEndDisplayingView(view)
+                view.removeContentCell()
+            }
         }
         
         func willDisplay(position: Position) {
-            let view = contentViewAtPosition(position)
-            let visible = view?.visible(visibleOffset)
-            
-            guard (view?.cell == nil || visible == view?.cell?.hidden) && visible == true else {
+            guard let view = contentViewAtPosition(position) else {
                 return
             }
             
-            if view?.cell == nil {
-                configureAtPosition(position)
-            }
+            let rect = CGRect(origin: contentOffset, size: CGSize(width: view.bounds.width + (pagingSpace * 2), height: view.bounds.height))
+            let visible = view.visible(rect)
             
-            willDisplayView(view)
+            
+            if (view.cell == nil || visible == view.cell?.hidden) && visible == true {
+                if view.cell == nil {
+                    configureAtPosition(position)
+                }
+                
+                willDisplayView(view)
+            }
         }
         
         endDisplay(.Left)
