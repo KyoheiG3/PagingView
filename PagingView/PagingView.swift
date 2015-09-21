@@ -120,6 +120,15 @@ public class PagingView: UIScrollView {
     private var rightContentView: ContentView? {
         return contentViewAtPosition(.Right)
     }
+    private var pretenseCenterContentView: ContentView? {
+        if leftPagingEdge {
+            return leftContentView
+        } else if rightPagingEdge {
+            return rightContentView
+        } else {
+            return centerContentView
+        }
+    }
     
     private var pagingViewDelegate: PagingViewDelegate? {
         return delegate as? PagingViewDelegate
@@ -295,19 +304,15 @@ public class PagingView: UIScrollView {
             }
             indexPath = toIndexPath
         } else {
-            let contentView: ContentView?
             let contentPosition: Position
             if leftPagingEdge {
-                contentView = leftContentView
                 contentPosition = .Right
             } else if rightPagingEdge {
-                contentView = rightContentView
                 contentPosition = .Left
             } else {
-                contentView = centerContentView
                 contentPosition = position
             }
-            guard let centerCell = contentView?.cell else {
+            guard let centerCell = pretenseCenterContentView?.cell else {
                 return
             }
             
@@ -696,11 +701,11 @@ extension PagingView {
     }
     
     public func visibleCenterCell() -> PagingViewCell? {
-        return centerContentView?.cell
+        return pretenseCenterContentView?.cell
     }
     
     public func visibleCenterCell<T>() -> T? {
-        return centerContentView?.cell as? T
+        return pretenseCenterContentView?.cell as? T
     }
 }
 
