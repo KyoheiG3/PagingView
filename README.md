@@ -70,6 +70,12 @@ var pagingInset: UInt
 * Value of two times than of `pagingInset` to set for the left and right of `contentInset`.
 * Default is `0`.
 
+```swift
+var infinite: Bool
+```
+* Infinite looping enabled flag.
+* Default is `true`.
+
 ### PagingView Function
 
 ```swift
