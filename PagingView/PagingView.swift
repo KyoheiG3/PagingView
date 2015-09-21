@@ -327,6 +327,10 @@ public class PagingView: UIScrollView {
             self.numberOfItemsInSection($0)
         }
         
+        defer {
+            reloadingIndexPath = nil
+        }
+        
         var configureIndexPath: NSIndexPath?
         if let indexPath = dataSource?.indexPathOfStartingInPagingView?(self) ?? reloadingIndexPath {
             do {
@@ -342,8 +346,6 @@ public class PagingView: UIScrollView {
                 configureIndexPath = NSIndexPath(forItem: 0, inSection: section)
             }
         }
-        
-        reloadingIndexPath = nil
         
         if let indexPath = configureIndexPath {
             configureView(centerContentView, indexPath: indexPath)
