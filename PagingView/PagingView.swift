@@ -105,6 +105,7 @@ public class PagingView: UIScrollView {
     private var registeredObject: [String: AnyObject] = [:]
     private var pagingContents: [ContentView] = []
     private var reloadingIndexPath: NSIndexPath?
+    private var nextConfigurationIndexPath: NSIndexPath?
     private var needsReload: Bool = true
     private var needsLayout: Bool = false
     private var constraintGroup: ConstraintGroup = ConstraintGroup()
@@ -227,7 +228,11 @@ public class PagingView: UIScrollView {
             return
         }
         
-        configureAtPosition(position, toIndexPath: indexPath)
+        if let contentView = contentViewAtPosition(position), cell = contentView.cell where cell.hidden == false {
+            configureAtPosition(position, toIndexPath: indexPath)
+        } else {
+            nextConfigurationIndexPath = indexPath
+        }
     }
     
     /// Configure cell of Position. IndexPath of cell in the center if indexPath is nil.
@@ -471,7 +476,8 @@ extension PagingView {
             
             if (view.cell == nil || visible == view.cell?.hidden) && visible == true {
                 if view.cell == nil {
-                    configureAtPosition(position)
+                    configureAtPosition(position, toIndexPath: nextConfigurationIndexPath)
+                    nextConfigurationIndexPath = nil
                 }
                 
                 willDisplayView(view)
