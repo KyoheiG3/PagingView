@@ -106,7 +106,6 @@ public class PagingView: UIScrollView {
     private var pagingContents: [ContentView] = []
     private var reloadingIndexPath: NSIndexPath?
     private var nextConfigurationIndexPath: NSIndexPath?
-    private var firstScrollPosition: Position?
     private var needsReload: Bool = true
     private var needsLayout: Bool = false
     private var constraintGroup: ConstraintGroup = ConstraintGroup()
@@ -227,13 +226,7 @@ public class PagingView: UIScrollView {
     
     /// discard the dataSource and delegate data and requery as necessary.
     public func reloadData() {
-        if leftPagingEdge {
-            reloadingIndexPath = leftContentView?.cell?.indexPath
-        } else if rightPagingEdge {
-            reloadingIndexPath = rightContentView?.cell?.indexPath
-        } else {
-            reloadingIndexPath = centerContentView?.cell?.indexPath
-        }
+        reloadingIndexPath = pretenseCenterContentView?.cell?.indexPath
         
         constraintGroup.removeAll()
         removeContentView()
@@ -415,7 +408,7 @@ public class PagingView: UIScrollView {
         }
     }
     
-    func reloadContentView() {
+    func reloadContentView() -> Position {
         sectionCount = numberOfSections()
         itemCountInSection = [Int](0..<sectionCount).map {
             self.numberOfItemsInSection($0)
@@ -441,20 +434,19 @@ public class PagingView: UIScrollView {
             }
         }
         
+        var position: Position = .Center
         if let indexPath = configureIndexPath {
-            let position: Position
             if indexPath == firstForceIndexPath() {
                 position = .Left
             } else if indexPath == lastForceIndexPath() {
                 position = .Right
-            } else {
-                position = .Center
             }
             
-            firstScrollPosition = position
             configureView(contentViewAtPosition(position), indexPath: indexPath)
             willDisplayView(contentViewAtPosition(position))
         }
+        
+        return position
     }
     
     func containsIndexPath(indexPath: NSIndexPath) throws {
@@ -467,6 +459,8 @@ public class PagingView: UIScrollView {
 // MARK: - Layout and Display
 extension PagingView {
     public override func layoutSubviews() {
+        var reloadScrollPosition: Position?
+        
         if needsReload || needsLayout {
             let horizontal = -CGFloat(pagingInset * 2)
             contentInset = UIEdgeInsets(top: 0, left: horizontal, bottom: 0, right: horizontal)
@@ -475,7 +469,7 @@ extension PagingView {
             
             if needsReload {
                 setupPagingContentView()
-                reloadContentView()
+                reloadScrollPosition = reloadContentView()
             } else if needsLayout {
                 layoutPagingContentView()
             }
@@ -485,10 +479,10 @@ extension PagingView {
         super.layoutSubviews()
         
         if pagingContents.count > 0 {
-            if beforeSize != contentSize || firstScrollPosition != nil || needsLayout {
+            if beforeSize != contentSize || needsReload || needsLayout {
                 contentSize = CGSize(width: floor(contentSize.width), height: floor(contentSize.height))
                 let contentPosition: Position
-                if let position = firstScrollPosition {
+                if let position = reloadScrollPosition {
                     contentPosition = position
                 } else {
                     if lastLeftPagingEdge {
@@ -503,7 +497,6 @@ extension PagingView {
                 if let offsetX = contentOffsetXAtPosition(contentPosition) {
                     setContentOffset(CGPoint(x: offsetX, y: contentOffset.y), animated: false)
                 }
-                firstScrollPosition = nil
             } else {
                 infiniteIfNeeded()
             }
@@ -549,8 +542,7 @@ extension PagingView {
                 }
             } else if rightEdge(offset) {
                 if infiniteRightScroll || forced {
-                    let offsetX = offset.x - contentOffsetRight
-                    return contentOffsetCenter + offsetX
+                    return contentOffsetCenter + (offset.x - contentOffsetRight)
                 }
             }
             
