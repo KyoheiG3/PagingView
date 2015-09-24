@@ -155,14 +155,14 @@ public class PagingView: UIScrollView {
         return infinite || rightContentView?.cell?.indexPath != lastForceIndexPath()
     }
     var leftPagingEdge: Bool {
-        return infiniteLeftScroll == false && leftEdge(contentOffset)
+        return infiniteLeftScroll == false && (leftEdge(contentOffset) || centerContentView?.cell == nil)
     }
     var rightPagingEdge: Bool {
-        return infiniteRightScroll == false && rightEdge(contentOffset)
+        return infiniteRightScroll == false && (rightEdge(contentOffset) || centerContentView?.cell == nil)
     }
     
     func leftEdge(offset: CGPoint) -> Bool {
-        return offset.x - CGFloat(pagingInset) <= contentOffsetXAtPosition(.Left)
+        return offset.x + (contentInset.left / 2) <= contentOffsetXAtPosition(.Left)
     }
     
     func rightEdge(offset: CGPoint) -> Bool {
@@ -171,7 +171,7 @@ public class PagingView: UIScrollView {
         }
         
         let contentOffsetRight = contentSize.width - contentOffsetCenter + contentInset.right
-        return contentOffsetRight < offset.x + CGFloat(pagingInset)
+        return contentOffsetRight <= offset.x - (contentInset.right / 2)
     }
     
     func contentViewAtPosition(position: Position) -> ContentView? {
@@ -185,7 +185,7 @@ public class PagingView: UIScrollView {
     
     func contentOffsetXAtPosition(position: Position) -> CGFloat? {
         if let view = contentViewAtPosition(position) {
-            return view.frame.origin.x - pagingSpace
+            return view.frame.origin.x - (constraintGroup.widths.constant / 2)
         }
         
         return nil
@@ -225,7 +225,14 @@ public class PagingView: UIScrollView {
     
     /// discard the dataSource and delegate data and requery as necessary.
     public func reloadData() {
-        reloadingIndexPath = centerContentView?.cell?.indexPath
+        if leftPagingEdge {
+            reloadingIndexPath = leftContentView?.cell?.indexPath
+        } else if rightPagingEdge {
+            reloadingIndexPath = rightContentView?.cell?.indexPath
+        } else {
+            reloadingIndexPath = centerContentView?.cell?.indexPath
+        }
+        
         constraintGroup.removeAll()
         removeContentView()
         
@@ -424,7 +431,7 @@ public class PagingView: UIScrollView {
                 fatalError(message)
             } catch {
                 fatalError("IndexPath is out of range")
-            } 
+            }
             configureIndexPath = indexPath
         } else {
             if let section = forceSections().first {
@@ -479,7 +486,7 @@ extension PagingView {
         super.layoutSubviews()
         
         if pagingContents.count > 0 {
-            if beforeSize != contentSize {
+            if beforeSize != contentSize || firstScrollPosition != nil {
                 contentSize = CGSize(width: floor(contentSize.width), height: floor(contentSize.height))
                 let position = firstScrollPosition ?? .Center
                 if let offsetX = contentOffsetXAtPosition(position) {
@@ -525,11 +532,8 @@ extension PagingView {
                 }
             } else if rightEdge(offset) {
                 if infiniteRightScroll || forced {
-                    return offset.x - contentOffsetCenter - contentInset.right
-                }
-            } else if contentOffsetRight == offset.x + CGFloat(pagingInset) {
-                if infiniteRightScroll || forced {
-                    return contentOffsetCenter - CGFloat(pagingInset)
+                    let offsetX = offset.x - contentOffsetRight
+                    return contentOffsetCenter + offsetX
                 }
             }
             
@@ -557,7 +561,7 @@ extension PagingView {
                 return
             }
             
-            let rect = CGRect(origin: contentOffset, size: CGSize(width: view.bounds.width + (pagingSpace * 2), height: view.bounds.height))
+            let rect = CGRect(origin: contentOffset, size: CGSize(width: view.bounds.width + constraintGroup.widths.constant, height: view.bounds.height))
             let visible = view.visible(rect)
             
             if visible == view.cell?.hidden && visible == false {
@@ -571,7 +575,7 @@ extension PagingView {
                 return
             }
             
-            let rect = CGRect(origin: contentOffset, size: CGSize(width: view.bounds.width + (pagingSpace * 2), height: view.bounds.height))
+            let rect = CGRect(origin: contentOffset, size: CGSize(width: view.bounds.width + constraintGroup.widths.constant, height: view.bounds.height))
             let visible = view.visible(rect)
             
             if (view.cell == nil || visible == view.cell?.hidden) && visible == true {
