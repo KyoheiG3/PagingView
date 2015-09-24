@@ -12,8 +12,6 @@
 		C768D4CA1B96077C0058EDE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C768D4C91B96077C0058EDE3 /* Assets.xcassets */; };
 		C768D4CD1B96077C0058EDE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C768D4CB1B96077C0058EDE3 /* LaunchScreen.storyboard */; };
 		C768D4F21B982B430058EDE3 /* PagingViewExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4F11B982B430058EDE3 /* PagingViewExampleUITests.swift */; };
-		C768D50A1B9832A80058EDE3 /* PagingView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C768D4D91B9607AF0058EDE3 /* PagingView.framework */; };
-		C768D50B1B9832A80058EDE3 /* PagingView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C768D4D91B9607AF0058EDE3 /* PagingView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C768D5101B9836EF0058EDE3 /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D50F1B9836EF0058EDE3 /* TestingViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		C768D5121B9837230058EDE3 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D5111B9837230058EDE3 /* DemoViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		C768D5181B983FFC0058EDE3 /* TestingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D5171B983FFC0058EDE3 /* TestingViewCell.swift */; settings = {ASSET_TAGS = (); }; };
@@ -23,26 +21,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C768D4D81B9607AF0058EDE3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C768D4D41B9607AF0058EDE3 /* PagingView.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C768D4A81B9605A60058EDE3;
-			remoteInfo = PagingView;
-		};
 		C768D4F41B982B430058EDE3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C768D4B71B96077C0058EDE3 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C768D4BE1B96077C0058EDE3;
 			remoteInfo = PagingViewExample;
-		};
-		C768D50C1B9832A80058EDE3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C768D4D41B9607AF0058EDE3 /* PagingView.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = C768D4A71B9605A60058EDE3;
-			remoteInfo = PagingView;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -53,7 +37,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C768D50B1B9832A80058EDE3 /* PagingView.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -67,7 +50,6 @@
 		C768D4C91B96077C0058EDE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C768D4CC1B96077C0058EDE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C768D4CE1B96077C0058EDE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C768D4D41B9607AF0058EDE3 /* PagingView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PagingView.xcodeproj; path = ../PagingView.xcodeproj; sourceTree = "<group>"; };
 		C768D4EF1B982B430058EDE3 /* PagingViewExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PagingViewExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C768D4F11B982B430058EDE3 /* PagingViewExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingViewExampleUITests.swift; sourceTree = "<group>"; };
 		C768D4F31B982B430058EDE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -84,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C768D50A1B9832A80058EDE3 /* PagingView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,7 +82,6 @@
 		C768D4B61B96077C0058EDE3 = {
 			isa = PBXGroup;
 			children = (
-				C768D4D41B9607AF0058EDE3 /* PagingView.xcodeproj */,
 				C768D4C11B96077C0058EDE3 /* PagingViewExample */,
 				C768D4F01B982B430058EDE3 /* PagingViewExampleUITests */,
 				C768D4C01B96077C0058EDE3 /* Products */,
@@ -135,14 +115,6 @@
 			path = PagingViewExample;
 			sourceTree = "<group>";
 		};
-		C768D4D51B9607AF0058EDE3 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C768D4D91B9607AF0058EDE3 /* PagingView.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		C768D4F01B982B430058EDE3 /* PagingViewExampleUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,7 +139,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C768D50D1B9832A80058EDE3 /* PBXTargetDependency */,
 			);
 			name = PagingViewExample;
 			productName = PagingViewExample;
@@ -221,12 +192,6 @@
 			mainGroup = C768D4B61B96077C0058EDE3;
 			productRefGroup = C768D4C01B96077C0058EDE3 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = C768D4D51B9607AF0058EDE3 /* Products */;
-					ProjectRef = C768D4D41B9607AF0058EDE3 /* PagingView.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				C768D4BE1B96077C0058EDE3 /* PagingViewExample */,
@@ -234,16 +199,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		C768D4D91B9607AF0058EDE3 /* PagingView.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PagingView.framework;
-			remoteRef = C768D4D81B9607AF0058EDE3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C768D4BD1B96077C0058EDE3 /* Resources */ = {
@@ -295,11 +250,6 @@
 			isa = PBXTargetDependency;
 			target = C768D4BE1B96077C0058EDE3 /* PagingViewExample */;
 			targetProxy = C768D4F41B982B430058EDE3 /* PBXContainerItemProxy */;
-		};
-		C768D50D1B9832A80058EDE3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = PagingView;
-			targetProxy = C768D50C1B9832A80058EDE3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
