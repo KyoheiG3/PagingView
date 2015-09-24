@@ -160,6 +160,8 @@ public class PagingView: UIScrollView {
     var rightPagingEdge: Bool {
         return infiniteRightScroll == false && (rightEdge(contentOffset) || centerContentView?.cell == nil)
     }
+    lazy var lastLeftPagingEdge: Bool = self.leftPagingEdge
+    lazy var lastRightPagingEdge: Bool = self.rightPagingEdge
     
     func leftEdge(offset: CGPoint) -> Bool {
         return offset.x + (contentInset.left / 2) <= contentOffsetXAtPosition(.Left)
@@ -477,19 +479,28 @@ extension PagingView {
             } else if needsLayout {
                 layoutPagingContentView()
             }
-            
-            needsReload = false
-            needsLayout = false
         }
         
         let beforeSize = contentSize
         super.layoutSubviews()
         
         if pagingContents.count > 0 {
-            if beforeSize != contentSize || firstScrollPosition != nil {
+            if beforeSize != contentSize || firstScrollPosition != nil || needsLayout {
                 contentSize = CGSize(width: floor(contentSize.width), height: floor(contentSize.height))
-                let position = firstScrollPosition ?? .Center
-                if let offsetX = contentOffsetXAtPosition(position) {
+                let contentPosition: Position
+                if let position = firstScrollPosition {
+                    contentPosition = position
+                } else {
+                    if lastLeftPagingEdge {
+                        contentPosition = .Left
+                    } else if lastRightPagingEdge {
+                        contentPosition = .Right
+                    } else {
+                        contentPosition = .Center
+                    }
+                }
+                
+                if let offsetX = contentOffsetXAtPosition(contentPosition) {
                     setContentOffset(CGPoint(x: offsetX, y: contentOffset.y), animated: false)
                 }
                 firstScrollPosition = nil
@@ -501,6 +512,12 @@ extension PagingView {
                 changeDisplayStatusForCell()
             }
         }
+        
+        lastLeftPagingEdge = leftPagingEdge
+        lastRightPagingEdge = rightPagingEdge
+        
+        needsLayout = false
+        needsReload = false
     }
     
     func infiniteForced() {
