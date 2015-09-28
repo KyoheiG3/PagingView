@@ -436,10 +436,12 @@ public class PagingView: UIScrollView {
         
         var position: Position = .Center
         if let indexPath = configureIndexPath {
-            if indexPath == firstForceIndexPath() {
-                position = .Left
-            } else if indexPath == lastForceIndexPath() {
-                position = .Right
+            if infinite == false {
+                if indexPath == firstForceIndexPath() {
+                    position = .Left
+                } else if indexPath == lastForceIndexPath() {
+                    position = .Right
+                }
             }
             
             configureView(contentViewAtPosition(position), indexPath: indexPath)
