@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1048EF0F3FB49F78D889DFA8 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CE0195778AAFE22E7C0741B /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C768D4C31B96077C0058EDE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4C21B96077C0058EDE3 /* AppDelegate.swift */; };
 		C768D4C81B96077C0058EDE3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C768D4C61B96077C0058EDE3 /* Main.storyboard */; };
 		C768D4CA1B96077C0058EDE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C768D4C91B96077C0058EDE3 /* Assets.xcassets */; };
@@ -44,6 +45,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1CE0195778AAFE22E7C0741B /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		307405B5F922ED86B81900D8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		33252822E14B66E9D4C91AD1 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C768D4BF1B96077C0058EDE3 /* PagingViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PagingViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C768D4C21B96077C0058EDE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C768D4C71B96077C0058EDE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -66,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1048EF0F3FB49F78D889DFA8 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,12 +84,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5B8E0D594E9D3CF75038D9D5 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1CE0195778AAFE22E7C0741B /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A1917F0D0223586D0657B383 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				307405B5F922ED86B81900D8 /* Pods.debug.xcconfig */,
+				33252822E14B66E9D4C91AD1 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		C768D4B61B96077C0058EDE3 = {
 			isa = PBXGroup;
 			children = (
 				C768D4C11B96077C0058EDE3 /* PagingViewExample */,
 				C768D4F01B982B430058EDE3 /* PagingViewExampleUITests */,
 				C768D4C01B96077C0058EDE3 /* Products */,
+				A1917F0D0223586D0657B383 /* Pods */,
+				5B8E0D594E9D3CF75038D9D5 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,10 +155,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C768D4D11B96077C0058EDE3 /* Build configuration list for PBXNativeTarget "PagingViewExample" */;
 			buildPhases = (
+				5D8AA61C492BB2EBE478D081 /* Check Pods Manifest.lock */,
 				C768D4BB1B96077C0058EDE3 /* Sources */,
 				C768D4BC1B96077C0058EDE3 /* Frameworks */,
 				C768D4BD1B96077C0058EDE3 /* Resources */,
 				C768D50E1B9832A80058EDE3 /* Embed Frameworks */,
+				85B16AD6A8BBABAE10BDE0DD /* Embed Pods Frameworks */,
+				8AAF52F07FCEF399BDBD8DDF /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -221,6 +248,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5D8AA61C492BB2EBE478D081 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		85B16AD6A8BBABAE10BDE0DD /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8AAF52F07FCEF399BDBD8DDF /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C768D4BB1B96077C0058EDE3 /* Sources */ = {
@@ -356,6 +431,7 @@
 		};
 		C768D4D21B96077C0058EDE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 307405B5F922ED86B81900D8 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -368,6 +444,7 @@
 		};
 		C768D4D31B96077C0058EDE3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 33252822E14B66E9D4C91AD1 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
