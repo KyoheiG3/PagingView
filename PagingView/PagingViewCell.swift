@@ -35,6 +35,8 @@ public class PagingViewCell: UIView {
     
     public internal(set) var indexPath = NSIndexPath(forItem: 0, inSection: 0)
     public internal(set) var reuseIdentifier: String?
+    /// Position of contents
+    public internal(set) var position: Position?
     
     public func prepareForReuse() {
     }

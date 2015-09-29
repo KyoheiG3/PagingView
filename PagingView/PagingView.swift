@@ -29,6 +29,8 @@ public class PagingView: UIScrollView {
             return CGRectIntersectsRect(rect, frame)
         }
         
+        var position: Position?
+        
         var cell: Cell? {
             return subviews.first as? Cell
         }
@@ -37,6 +39,7 @@ public class PagingView: UIScrollView {
             cell.frame = CGRect(origin: CGPoint.zero, size: bounds.size)
             cell.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
             addSubview(cell)
+            cell.position = position
             cell.indexPath = indexPath
             cell.hidden = false
         }
@@ -46,6 +49,7 @@ public class PagingView: UIScrollView {
             
             if let cell = contentView?.cell {
                 addSubview(cell)
+                cell.position = position
             }
         }
         
@@ -80,25 +84,6 @@ public class PagingView: UIScrollView {
         }
     }
     
-    /// Position of contents of PagingView.
-    public enum Position {
-        case Left
-        case Center
-        case Right
-        
-        func numberOfPages() -> Int {
-            switch self {
-            case Left:
-                return 0
-            case Center:
-                return 1
-            case Right:
-                return 2
-            }
-        }
-    }
-    
-    private let pagingContentCount = 3
     private var sectionCount = 1
     private var itemCountInSection: [Int] = []
     private var pagingReuseQueue = PagingViewCell.ReuseQueue()
@@ -670,8 +655,9 @@ extension PagingView {
             }
         }
         
-        for _ in 0..<pagingContentCount {
+        for index in 0..<Position.count {
             let contentView = ContentView(frame: bounds)
+            contentView.position = Position(rawValue: index)
             contentView.translatesAutoresizingMaskIntoConstraints = false
             addSubview(contentView)
             
