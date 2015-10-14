@@ -407,12 +407,14 @@ public class PagingView: UIScrollView {
         if let indexPath = dataSource?.indexPathOfStartingInPagingView?(self) ?? reloadingIndexPath {
             do {
                 try containsIndexPath(indexPath)
+                defer {
+                    configureIndexPath = indexPath
+                }
             } catch PagingViewError.IndexPathRange(let message) {
-                fatalError(message)
+                print(message)
             } catch {
                 fatalError("IndexPath is out of range")
             }
-            configureIndexPath = indexPath
         } else {
             if let section = forceSections().first {
                 configureIndexPath = NSIndexPath(forItem: 0, inSection: section)
