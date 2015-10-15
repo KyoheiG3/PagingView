@@ -516,28 +516,19 @@ extension PagingView {
     }
     
     func changeDisplayStatusForCell() {
-        func endDisplay(position: Position) {
-            guard let view = contentViewAtPosition(position) else {
-                return
-            }
-            
+        func viewVisible(view: ContentView) -> Bool {
             let rect = CGRect(origin: contentOffset, size: CGSize(width: view.bounds.width + constraintGroup.widths.constant, height: view.bounds.height))
-            let visible = view.visible(rect)
-            
+            return view.visible(rect)
+        }
+        
+        func endDisplayIfNeeded(view: ContentView, visible: Bool) {
             if visible == view.cell?.hidden && visible == false {
                 didEndDisplayingView(view)
                 view.removeContentCell()
             }
         }
         
-        func willDisplay(position: Position) {
-            guard let view = contentViewAtPosition(position) else {
-                return
-            }
-            
-            let rect = CGRect(origin: contentOffset, size: CGSize(width: view.bounds.width + constraintGroup.widths.constant, height: view.bounds.height))
-            let visible = view.visible(rect)
-            
+        func willDisplayIfNeeded(view: ContentView, visible: Bool, position: Position) {
             if (view.cell == nil || visible == view.cell?.hidden) && visible == true {
                 if view.cell == nil {
                     configureAtPosition(position, toIndexPath: nextConfigurationIndexPath)
@@ -549,14 +540,23 @@ extension PagingView {
         }
         
         if leftPagingEdge || rightPagingEdge {
-            endDisplay(.Center)
-            willDisplay(.Center)
+            if let view = contentViewAtPosition(.Center) {
+                let visible = viewVisible(view)
+                
+                endDisplayIfNeeded(view, visible: visible)
+                willDisplayIfNeeded(view, visible: visible, position: .Center)
+            }
         } else {
-            endDisplay(.Left)
-            endDisplay(.Right)
-            
-            willDisplay(.Left)
-            willDisplay(.Right)
+            if let leftView = contentViewAtPosition(.Left), rightView = contentViewAtPosition(.Right) {
+                let leftVisible = viewVisible(leftView)
+                let rightVisible = viewVisible(rightView)
+                
+                endDisplayIfNeeded(leftView, visible: leftVisible)
+                endDisplayIfNeeded(rightView, visible: rightVisible)
+                
+                willDisplayIfNeeded(leftView, visible: leftVisible, position: .Left)
+                willDisplayIfNeeded(rightView, visible: rightVisible, position: .Right)
+            }
         }
     }
     
