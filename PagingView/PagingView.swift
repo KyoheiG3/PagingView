@@ -24,47 +24,11 @@ import UIKit
 public class PagingView: UIScrollView {
     typealias Cell = PagingViewCell
     
-    class ContentView: UIView {
-        func visible(rect: CGRect) -> Bool {
-            return CGRectIntersectsRect(rect, frame)
-        }
-        
-        var position: Position?
-        
-        var cell: Cell? {
-            return subviews.first as? Cell
-        }
-        
-        func addContentCell(cell: Cell, indexPath: NSIndexPath) {
-            cell.frame = CGRect(origin: CGPoint.zero, size: bounds.size)
-            cell.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-            addSubview(cell)
-            cell.position = position
-            cell.indexPath = indexPath
-            cell.hidden = false
-        }
-        
-        func contentMoveFrom(contentView: ContentView?) {
-            removeContentCell()
-            
-            if let cell = contentView?.cell {
-                addSubview(cell)
-                cell.position = position
-            }
-        }
-        
-        func removeContentCell() {
-            while let view = subviews.last {
-                view.removeFromSuperview()
-            }
-        }
-    }
-    
-    enum PagingViewError: ErrorType {
+    private enum PagingViewError: ErrorType {
         case IndexPathRange(String)
     }
     
-    struct ConstraintGroup {
+    private struct ConstraintGroup {
         var heights: Constraints = Constraints()
         var widths: Constraints = Constraints()
         var betweenSpaces: Constraints = Constraints()
@@ -86,7 +50,7 @@ public class PagingView: UIScrollView {
     
     private var sectionCount = 1
     private var itemCountInSection: [Int] = []
-    private var pagingReuseQueue = PagingViewCell.ReuseQueue()
+    private var cellReuseQueue = CellReuseQueue()
     private var registeredObject: [String: AnyObject] = [:]
     private var pagingContents: [ContentView] = []
     private var reloadingIndexPath: NSIndexPath?
@@ -178,7 +142,7 @@ public class PagingView: UIScrollView {
     }
     
     public func dequeueReusableCellWithReuseIdentifier(identifier: String) -> PagingViewCell {
-        if let view = pagingReuseQueue.dequeue(identifier) {
+        if let view = cellReuseQueue.dequeue(identifier) {
             view.reuseIdentifier = identifier
             view.prepareForReuse()
             return view
@@ -193,7 +157,7 @@ public class PagingView: UIScrollView {
             fatalError("could not dequeue a view of kind: UIView with identifier \(identifier) - must register a nib or a class for the identifier")
         }
         
-        pagingReuseQueue.append(reuseContent, forQueueIdentifier: identifier)
+        cellReuseQueue.append(reuseContent, forQueueIdentifier: identifier)
         
         return reuseContent
     }
@@ -675,6 +639,10 @@ extension PagingView {
         constraintGroup.leftSpaces.constant = pagingSpace - contentInset.left
         constraintGroup.rightSpaces.constant = pagingSpace - contentInset.right
     }
+    
+    private func addConstraints(group: ConstraintGroup) {
+        addConstraints(group.allConstraints().collection)
+    }
 }
 
 // MARK: - Visibility
@@ -707,16 +675,5 @@ extension PagingView {
     
     public func visibleCenterCell<T>() -> T? {
         return pretenseCenterContentView?.cell as? T
-    }
-}
-
-// MARK: - Constraints
-extension PagingView {
-    func addConstraints(constraints: Constraints) {
-        addConstraints(constraints.collection)
-    }
-    
-    func addConstraints(group: ConstraintGroup) {
-        addConstraints(group.allConstraints().collection)
     }
 }
