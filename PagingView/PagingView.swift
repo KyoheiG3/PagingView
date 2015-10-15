@@ -53,7 +53,6 @@ public class PagingView: UIScrollView {
     private var cellReuseQueue = CellReuseQueue()
     private var registeredObject: [String: AnyObject] = [:]
     private var pagingContents: [ContentView] = []
-    private var reloadingIndexPath: NSIndexPath?
     private var nextConfigurationIndexPath: NSIndexPath?
     private var needsReload: Bool = true
     private var needsLayout: Bool = false
@@ -175,8 +174,6 @@ public class PagingView: UIScrollView {
     
     /// discard the dataSource and delegate data and requery as necessary.
     public func reloadData() {
-        reloadingIndexPath = pretenseCenterContentView?.cell?.indexPath
-        
         constraintGroup.removeAll()
         removeContentView()
         
@@ -363,12 +360,8 @@ public class PagingView: UIScrollView {
             self.numberOfItemsInSection($0)
         }
         
-        defer {
-            reloadingIndexPath = nil
-        }
-        
         var configureIndexPath: NSIndexPath?
-        if let indexPath = dataSource?.indexPathOfStartingInPagingView?(self) ?? reloadingIndexPath {
+        if let indexPath = dataSource?.indexPathOfStartingInPagingView?(self) {
             do {
                 try containsIndexPath(indexPath)
             } catch PagingViewError.IndexPathRange(let message) {
