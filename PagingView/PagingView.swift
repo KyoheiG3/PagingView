@@ -172,7 +172,7 @@ public class PagingView: UIScrollView {
         registeredObject[identifier] = viewClass
     }
     
-    /// discard the dataSource and delegate data and requery as necessary.
+    /// Discard the dataSource and delegate data, also requery as necessary.
     public func reloadData() {
         constraintGroup.removeAll()
         removeContentView()
@@ -181,7 +181,8 @@ public class PagingView: UIScrollView {
         setNeedsLayout()
     }
     
-    func invalidateLayout() {
+    /// Relayout as necessary.
+    public func invalidateLayout() {
         needsLayout = true
         setNeedsLayout()
     }
