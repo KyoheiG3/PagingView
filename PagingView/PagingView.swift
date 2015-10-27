@@ -179,7 +179,7 @@ public class PagingView: UIScrollView {
         
         needsReload = true
         setNeedsLayout()
-        self.layoutIfNeeded()
+        layoutIfNeeded()
     }
     
     func invalidateLayout() {
