@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0710"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C768D4BE1B96077C0058EDE3"
+               BlueprintIdentifier = "C74417E31BDFE06F001ECD4B"
                BuildableName = "PagingViewExample.app"
                BlueprintName = "PagingViewExample"
                ReferencedContainer = "container:PagingViewExample.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C768D4EE1B982B430058EDE3"
+               BlueprintIdentifier = "C74417F71BDFE06F001ECD4B"
                BuildableName = "PagingViewExampleUITests.xctest"
                BlueprintName = "PagingViewExampleUITests"
                ReferencedContainer = "container:PagingViewExample.xcodeproj">
@@ -42,7 +42,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C768D4BE1B96077C0058EDE3"
+            BlueprintIdentifier = "C74417E31BDFE06F001ECD4B"
             BuildableName = "PagingViewExample.app"
             BlueprintName = "PagingViewExample"
             ReferencedContainer = "container:PagingViewExample.xcodeproj">
@@ -65,7 +65,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C768D4BE1B96077C0058EDE3"
+            BlueprintIdentifier = "C74417E31BDFE06F001ECD4B"
             BuildableName = "PagingViewExample.app"
             BlueprintName = "PagingViewExample"
             ReferencedContainer = "container:PagingViewExample.xcodeproj">
@@ -84,7 +84,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C768D4BE1B96077C0058EDE3"
+            BlueprintIdentifier = "C74417E31BDFE06F001ECD4B"
             BuildableName = "PagingViewExample.app"
             BlueprintName = "PagingViewExample"
             ReferencedContainer = "container:PagingViewExample.xcodeproj">
