@@ -179,6 +179,7 @@ public class PagingView: UIScrollView {
         
         needsReload = true
         setNeedsLayout()
+        layoutIfNeeded()
     }
     
     /// Relayout as necessary.
