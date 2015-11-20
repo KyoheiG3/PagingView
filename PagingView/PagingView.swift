@@ -265,8 +265,12 @@ public class PagingView: UIScrollView {
             guard let centerCell = pretenseCenterContentView?.cell else {
                 return
             }
-            
+
             indexPath = indexPathAtPosition(contentPosition, indexPath: centerCell.indexPath)
+
+            if self.infinite == false && indexPath.row == 0 && contentPosition == .Right {
+                return
+            }
         }
         
         if let contentView = contentViewAtPosition(position) where contentView.cell?.indexPath != indexPath {
@@ -366,12 +370,14 @@ public class PagingView: UIScrollView {
         if let indexPath = dataSource?.indexPathOfStartingInPagingView?(self) {
             do {
                 try containsIndexPath(indexPath)
+                defer {
+                    configureIndexPath = indexPath
+                }
             } catch PagingViewError.IndexPathRange(let message) {
-                fatalError(message)
+                print(message)
             } catch {
                 fatalError("IndexPath is out of range")
             }
-            configureIndexPath = indexPath
         } else {
             if let section = forceSections().first {
                 configureIndexPath = NSIndexPath(forItem: 0, inSection: section)
