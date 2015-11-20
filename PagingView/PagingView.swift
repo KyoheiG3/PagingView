@@ -267,6 +267,10 @@ public class PagingView: UIScrollView {
             }
             
             indexPath = indexPathAtPosition(contentPosition, indexPath: centerCell.indexPath)
+            
+            if self.infinite == false && indexPath.row == 0 && contentPosition == .Right {
+                return
+            }
         }
         
         if let contentView = contentViewAtPosition(position) where contentView.cell?.indexPath != indexPath {
