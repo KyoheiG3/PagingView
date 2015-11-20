@@ -7,23 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C73493961B9EA24300D33ED4 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73493951B9EA24300D33ED4 /* Constraints.swift */; settings = {ASSET_TAGS = (); }; };
-		C768D4AC1B9605A60058EDE3 /* PagingView.h in Headers */ = {isa = PBXBuildFile; fileRef = C768D4AB1B9605A60058EDE3 /* PagingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C768D4B51B9606060058EDE3 /* PagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4B41B9606060058EDE3 /* PagingView.swift */; settings = {ASSET_TAGS = (); }; };
-		C768D4DD1B960A5A0058EDE3 /* PagingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C768D4DC1B960A5A0058EDE3 /* PagingViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		C74417C81BDFDFCF001ECD4B /* PagingView.h in Headers */ = {isa = PBXBuildFile; fileRef = C74417C71BDFDFCF001ECD4B /* PagingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C74417D21BDFE025001ECD4B /* CellReuseQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74417CF1BDFE025001ECD4B /* CellReuseQueue.swift */; };
+		C74417D31BDFE025001ECD4B /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74417D01BDFE025001ECD4B /* Constraints.swift */; };
+		C74417D41BDFE025001ECD4B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74417D11BDFE025001ECD4B /* ContentView.swift */; };
+		C74417D81BDFE02D001ECD4B /* PagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74417D51BDFE02D001ECD4B /* PagingView.swift */; };
+		C74417D91BDFE02D001ECD4B /* PagingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74417D61BDFE02D001ECD4B /* PagingViewCell.swift */; };
+		C74417DA1BDFE02D001ECD4B /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74417D71BDFE02D001ECD4B /* Position.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C73493951B9EA24300D33ED4 /* Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
-		C768D4A81B9605A60058EDE3 /* PagingView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagingView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C768D4AB1B9605A60058EDE3 /* PagingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PagingView.h; sourceTree = "<group>"; };
-		C768D4AD1B9605A60058EDE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C768D4B41B9606060058EDE3 /* PagingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingView.swift; sourceTree = "<group>"; };
-		C768D4DC1B960A5A0058EDE3 /* PagingViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingViewCell.swift; sourceTree = "<group>"; };
+		C74417C41BDFDFCF001ECD4B /* PagingView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagingView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C74417C71BDFDFCF001ECD4B /* PagingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PagingView.h; sourceTree = "<group>"; };
+		C74417C91BDFDFCF001ECD4B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C74417CF1BDFE025001ECD4B /* CellReuseQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellReuseQueue.swift; sourceTree = "<group>"; };
+		C74417D01BDFE025001ECD4B /* Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
+		C74417D11BDFE025001ECD4B /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C74417D51BDFE02D001ECD4B /* PagingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingView.swift; sourceTree = "<group>"; };
+		C74417D61BDFE02D001ECD4B /* PagingViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingViewCell.swift; sourceTree = "<group>"; };
+		C74417D71BDFE02D001ECD4B /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		C768D4A41B9605A60058EDE3 /* Frameworks */ = {
+		C74417C01BDFDFCF001ECD4B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,30 +39,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C768D49E1B9605A60058EDE3 = {
+		C74417BA1BDFDFCF001ECD4B = {
 			isa = PBXGroup;
 			children = (
-				C768D4AA1B9605A60058EDE3 /* PagingView */,
-				C768D4A91B9605A60058EDE3 /* Products */,
+				C74417C61BDFDFCF001ECD4B /* PagingView */,
+				C74417C51BDFDFCF001ECD4B /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		C768D4A91B9605A60058EDE3 /* Products */ = {
+		C74417C51BDFDFCF001ECD4B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C768D4A81B9605A60058EDE3 /* PagingView.framework */,
+				C74417C41BDFDFCF001ECD4B /* PagingView.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C768D4AA1B9605A60058EDE3 /* PagingView */ = {
+		C74417C61BDFDFCF001ECD4B /* PagingView */ = {
 			isa = PBXGroup;
 			children = (
-				C73493951B9EA24300D33ED4 /* Constraints.swift */,
-				C768D4AB1B9605A60058EDE3 /* PagingView.h */,
-				C768D4B41B9606060058EDE3 /* PagingView.swift */,
-				C768D4DC1B960A5A0058EDE3 /* PagingViewCell.swift */,
-				C768D4AD1B9605A60058EDE3 /* Info.plist */,
+				C74417CF1BDFE025001ECD4B /* CellReuseQueue.swift */,
+				C74417D01BDFE025001ECD4B /* Constraints.swift */,
+				C74417D11BDFE025001ECD4B /* ContentView.swift */,
+				C74417C71BDFDFCF001ECD4B /* PagingView.h */,
+				C74417D51BDFE02D001ECD4B /* PagingView.swift */,
+				C74417D61BDFE02D001ECD4B /* PagingViewCell.swift */,
+				C74417D71BDFE02D001ECD4B /* Position.swift */,
+				C74417C91BDFDFCF001ECD4B /* Info.plist */,
 			);
 			path = PagingView;
 			sourceTree = "<group>";
@@ -64,25 +73,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		C768D4A51B9605A60058EDE3 /* Headers */ = {
+		C74417C11BDFDFCF001ECD4B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C768D4AC1B9605A60058EDE3 /* PagingView.h in Headers */,
+				C74417C81BDFDFCF001ECD4B /* PagingView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		C768D4A71B9605A60058EDE3 /* PagingView */ = {
+		C74417C31BDFDFCF001ECD4B /* PagingView */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C768D4B01B9605A60058EDE3 /* Build configuration list for PBXNativeTarget "PagingView" */;
+			buildConfigurationList = C74417CC1BDFDFCF001ECD4B /* Build configuration list for PBXNativeTarget "PagingView" */;
 			buildPhases = (
-				C768D4A31B9605A60058EDE3 /* Sources */,
-				C768D4A41B9605A60058EDE3 /* Frameworks */,
-				C768D4A51B9605A60058EDE3 /* Headers */,
-				C768D4A61B9605A60058EDE3 /* Resources */,
+				C74417BF1BDFDFCF001ECD4B /* Sources */,
+				C74417C01BDFDFCF001ECD4B /* Frameworks */,
+				C74417C11BDFDFCF001ECD4B /* Headers */,
+				C74417C21BDFDFCF001ECD4B /* Resources */,
 			);
 			buildRules = (
 			);
@@ -90,43 +99,42 @@
 			);
 			name = PagingView;
 			productName = PagingView;
-			productReference = C768D4A81B9605A60058EDE3 /* PagingView.framework */;
+			productReference = C74417C41BDFDFCF001ECD4B /* PagingView.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		C768D49F1B9605A60058EDE3 /* Project object */ = {
+		C74417BB1BDFDFCF001ECD4B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = kyohei_ito;
 				TargetAttributes = {
-					C768D4A71B9605A60058EDE3 = {
-						CreatedOnToolsVersion = 7.0;
+					C74417C31BDFDFCF001ECD4B = {
+						CreatedOnToolsVersion = 7.1;
 					};
 				};
 			};
-			buildConfigurationList = C768D4A21B9605A60058EDE3 /* Build configuration list for PBXProject "PagingView" */;
+			buildConfigurationList = C74417BE1BDFDFCF001ECD4B /* Build configuration list for PBXProject "PagingView" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = C768D49E1B9605A60058EDE3;
-			productRefGroup = C768D4A91B9605A60058EDE3 /* Products */;
+			mainGroup = C74417BA1BDFDFCF001ECD4B;
+			productRefGroup = C74417C51BDFDFCF001ECD4B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C768D4A71B9605A60058EDE3 /* PagingView */,
+				C74417C31BDFDFCF001ECD4B /* PagingView */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		C768D4A61B9605A60058EDE3 /* Resources */ = {
+		C74417C21BDFDFCF001ECD4B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -136,20 +144,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C768D4A31B9605A60058EDE3 /* Sources */ = {
+		C74417BF1BDFDFCF001ECD4B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C768D4DD1B960A5A0058EDE3 /* PagingViewCell.swift in Sources */,
-				C73493961B9EA24300D33ED4 /* Constraints.swift in Sources */,
-				C768D4B51B9606060058EDE3 /* PagingView.swift in Sources */,
+				C74417D81BDFE02D001ECD4B /* PagingView.swift in Sources */,
+				C74417D31BDFE025001ECD4B /* Constraints.swift in Sources */,
+				C74417DA1BDFE02D001ECD4B /* Position.swift in Sources */,
+				C74417D91BDFE02D001ECD4B /* PagingViewCell.swift in Sources */,
+				C74417D21BDFE025001ECD4B /* CellReuseQueue.swift in Sources */,
+				C74417D41BDFE025001ECD4B /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		C768D4AE1B9605A60058EDE3 /* Debug */ = {
+		C74417CA1BDFDFCF001ECD4B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -197,7 +208,7 @@
 			};
 			name = Debug;
 		};
-		C768D4AF1B9605A60058EDE3 /* Release */ = {
+		C74417CB1BDFDFCF001ECD4B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -238,7 +249,7 @@
 			};
 			name = Release;
 		};
-		C768D4B11B9605A60058EDE3 /* Debug */ = {
+		C74417CD1BDFDFCF001ECD4B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -256,7 +267,7 @@
 			};
 			name = Debug;
 		};
-		C768D4B21B9605A60058EDE3 /* Release */ = {
+		C74417CE1BDFDFCF001ECD4B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -276,25 +287,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C768D4A21B9605A60058EDE3 /* Build configuration list for PBXProject "PagingView" */ = {
+		C74417BE1BDFDFCF001ECD4B /* Build configuration list for PBXProject "PagingView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C768D4AE1B9605A60058EDE3 /* Debug */,
-				C768D4AF1B9605A60058EDE3 /* Release */,
+				C74417CA1BDFDFCF001ECD4B /* Debug */,
+				C74417CB1BDFDFCF001ECD4B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C768D4B01B9605A60058EDE3 /* Build configuration list for PBXNativeTarget "PagingView" */ = {
+		C74417CC1BDFDFCF001ECD4B /* Build configuration list for PBXNativeTarget "PagingView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C768D4B11B9605A60058EDE3 /* Debug */,
-				C768D4B21B9605A60058EDE3 /* Release */,
+				C74417CD1BDFDFCF001ECD4B /* Debug */,
+				C74417CE1BDFDFCF001ECD4B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = C768D49F1B9605A60058EDE3 /* Project object */;
+	rootObject = C74417BB1BDFDFCF001ECD4B /* Project object */;
 }

@@ -99,6 +99,11 @@ func reloadData()
 * Requery the `dataSource` and `delegate` as necessary.
 
 ```swift
+func invalidateLayout()
+```
+* Relayout as necessary.
+
+```swift
 func numberOfSections() -> Int
 func numberOfItemsInSection(section: Int) -> Int
 ```
