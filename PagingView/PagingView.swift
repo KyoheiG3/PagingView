@@ -58,6 +58,9 @@ public class PagingView: UIScrollView {
     private var needsLayout: Bool = false
     private var constraintGroup: ConstraintGroup = ConstraintGroup()
     
+    private var allItemCount: Int {
+        return itemCountInSection.reduce(0) { return $0.0 + $0.1 }
+    }
     private var leftContentView: ContentView? {
         return contentViewAtPosition(.Left)
     }
@@ -356,12 +359,14 @@ public class PagingView: UIScrollView {
         }
     }
     
-    func reloadContentView() -> Position {
+    func reloadSectionData() {
         sectionCount = numberOfSections()
         itemCountInSection = [Int](0..<sectionCount).map {
             self.numberOfItemsInSection($0)
         }
-        
+    }
+    
+    func reloadContentView() -> Position {
         var configureIndexPath: NSIndexPath?
         if let indexPath = dataSource?.indexPathOfStartingInPagingView?(self) {
             do {
@@ -414,6 +419,7 @@ extension PagingView {
             scrollsToTop = false
             
             if needsReload {
+                reloadSectionData()
                 setupPagingContentView()
                 reloadScrollPosition = reloadContentView()
             } else if needsLayout {
@@ -614,7 +620,7 @@ extension PagingView {
             }
         }
         
-        for index in 0..<Position.count {
+        for index in 0..<min(Position.count, allItemCount) {
             let contentView = ContentView(frame: bounds)
             contentView.position = Position(rawValue: index)
             contentView.translatesAutoresizingMaskIntoConstraints = false
