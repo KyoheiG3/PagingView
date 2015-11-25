@@ -8,6 +8,7 @@
 
 import XCTest
 
+@available(iOS 9.0, *)
 class PagingViewExampleUITests: XCTestCase {
     let pagingView = XCUIApplication().scrollViews["PagingView"]
     let configureLabel = XCUIApplication().staticTexts["ConfigureLabel"]
