@@ -391,6 +391,10 @@ public class PagingView: UIScrollView {
                 } else if indexPath == lastForceIndexPath() {
                     position = .Right
                 }
+            } else {
+                if pagingContents.count <= 1 {
+                    position = .Left
+                }
             }
             
             configureView(contentViewAtPosition(position), indexPath: indexPath)
