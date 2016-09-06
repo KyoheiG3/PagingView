@@ -132,6 +132,10 @@ public class PagingView: UIScrollView {
             return pagingContents[page]
         }
         
+        if pagingContents.count == 2 && position == .Right {
+            return pagingContents[1]
+        }
+        
         return nil
     }
     
