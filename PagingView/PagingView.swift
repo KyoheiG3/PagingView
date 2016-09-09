@@ -391,6 +391,10 @@ public class PagingView: UIScrollView {
                 } else if indexPath == lastForceIndexPath() {
                     position = .Right
                 }
+            } else {
+                if pagingContents.count <= 1 {
+                    position = .Left
+                }
             }
             
             configureView(contentViewAtPosition(position), indexPath: indexPath)
@@ -620,7 +624,7 @@ extension PagingView {
             }
         }
         
-        for index in 0..<min(Position.count, allItemCount) {
+        for index in 0..<(allItemCount > 1 ? Position.count : allItemCount) {
             let contentView = ContentView(frame: bounds)
             contentView.position = Position(rawValue: index)
             contentView.translatesAutoresizingMaskIntoConstraints = false
