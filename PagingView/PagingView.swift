@@ -86,18 +86,18 @@ public class PagingView: UIScrollView {
     
     @IBOutlet public weak var dataSource: PagingViewDataSource?
     /// Margin between the content.
-    public var pagingMargin: UInt = 0 {
+    @IBInspectable public var pagingMargin: UInt = 0 {
         didSet { invalidateLayout() }
     }
     /// Inset of content relative to size of PagingView. Value of two times than of pagingInset to set for the left and right of contentInset.
-    public var pagingInset: UInt = 0 {
+    @IBInspectable public var pagingInset: UInt = 0 {
         didSet { invalidateLayout() }
     }
     var pagingSpace: CGFloat {
         return CGFloat(pagingInset + pagingMargin)
     }
     /// Infinite looping enabled flag.
-    public var infinite: Bool = true
+    @IBInspectable public var infinite: Bool = true
     var infiniteLeftScroll: Bool {
         return infinite || leftContentView?.cell?.indexPath != firstForceIndexPath()
     }
