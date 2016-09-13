@@ -555,17 +555,16 @@ extension PagingView {
                 endDisplayIfNeeded(view, visible: visible)
                 willDisplayIfNeeded(view, visible: visible, position: .Center)
             }
-        } else {
-            if let leftView = contentViewAtPosition(.Left), rightView = contentViewAtPosition(.Right) {
-                let leftVisible = viewVisible(leftView)
-                let rightVisible = viewVisible(rightView)
-                
-                endDisplayIfNeeded(leftView, visible: leftVisible)
-                endDisplayIfNeeded(rightView, visible: rightVisible)
-                
-                willDisplayIfNeeded(leftView, visible: leftVisible, position: .Left)
-                willDisplayIfNeeded(rightView, visible: rightVisible, position: .Right)
-            }
+        }
+        if let leftView = contentViewAtPosition(.Left), rightView = contentViewAtPosition(.Right) {
+            let leftVisible = viewVisible(leftView)
+            let rightVisible = viewVisible(rightView)
+            
+            endDisplayIfNeeded(leftView, visible: leftVisible)
+            endDisplayIfNeeded(rightView, visible: rightVisible)
+            
+            willDisplayIfNeeded(leftView, visible: leftVisible, position: .Left)
+            willDisplayIfNeeded(rightView, visible: rightVisible, position: .Right)
         }
     }
     
@@ -628,7 +627,7 @@ extension PagingView {
             }
         }
         
-        for index in 0..<(allItemCount > 1 ? Position.count : allItemCount) {
+        for index in 0..<(allItemCount > 1 && infinite ? Position.count : allItemCount) {
             let contentView = ContentView(frame: bounds)
             contentView.position = Position(rawValue: index)
             contentView.translatesAutoresizingMaskIntoConstraints = false
