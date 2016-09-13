@@ -291,9 +291,11 @@ public class PagingView: UIScrollView {
         
         switch position {
         case .Left:
-            if --item < 0 {
+            item -= 1
+            if item < 0 {
                 if var index = sectionIndex {
-                    if --index < 0, let last = sections.last {
+                    index -= 1
+                    if index < 0, let last = sections.last {
                         section = last
                     } else {
                         section = sections[index]
@@ -304,9 +306,11 @@ public class PagingView: UIScrollView {
             
             return NSIndexPath(forItem: item, inSection: section)
         case .Right:
-            if ++item >= itemCountInSection[section] {
+            item += 1
+            if item >= itemCountInSection[section] {
                 if var index = sectionIndex {
-                    if ++index >= sections.count, let first = sections.first {
+                    index += 1
+                    if index >= sections.count, let first = sections.first {
                         section = first
                     } else {
                         section = sections[index]
