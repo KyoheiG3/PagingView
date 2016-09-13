@@ -12,7 +12,9 @@ Infinite paging, Smart auto layout, Interface of similar to UIKit.
 ![Demo](https://raw.githubusercontent.com/KyoheiG3/assets/master/PagingView/image_demo.gif)
 
 ## Requirements
-* swift 2.0
+
+- Swift 3.0
+- iOS 7.0 or later
 
 ## How to Install PagingView
 
@@ -110,13 +112,13 @@ func numberOfItemsInSection(section: Int) -> Int
 * Information about the current state of the `PagingView`.
 
 ```swift
-func scrollToPosition(position: PagingView.PagingView.Position, indexPath: NSIndexPath? = default, animated: Bool = default)
+func scrollToPosition(position: PagingView.PagingView.Position, indexPath: IndexPath? = default, animated: Bool = default)
 ```
 * To scroll at `Position`.
-* Cell configure is performed at `NSIndexPath`.
+* Cell configure is performed at `IndexPath`.
 
 ```swift
-func configureAtPosition(position: PagingView.PagingView.Position, toIndexPath: NSIndexPath? = default)
+func configureAtPosition(position: PagingView.PagingView.Position, toIndexPath: IndexPath? = default)
 ```
 * Configure cell of `Position`.
 * IndexPath of cell in the center if indexPath is `nil`.
@@ -129,7 +131,7 @@ func pagingView(pagingView: PagingView.PagingView, numberOfItemsInSection sectio
 * Paging count number of paging item in section.
 
 ```swift
-func pagingView(pagingView: PagingView.PagingView, cellForItemAtIndexPath indexPath: NSIndexPath) -> PagingView.PagingViewCell
+func pagingView(pagingView: PagingView.PagingView, cellForItemAtIndexPath indexPath: IndexPath) -> PagingView.PagingViewCell
 ```
 * Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with `dequeueReusableCellWithReuseIdentifier:`.
 
@@ -140,16 +142,16 @@ optional func numberOfSectionsInPagingView(pagingView: PagingView.PagingView) ->
 * Default return value is `1`.
 
 ```swift
-optional func indexPathOfStartingInPagingView(pagingView: PagingView.PagingView) -> NSIndexPath?
+optional func indexPathOfStartingInPagingView(pagingView: PagingView.PagingView) -> IndexPath?
 ```
 * IndexPath when `pagingView:cellForItemAtIndexPath:` is first called
-* Default return value is `0 - 0` of `NSIndexPath` instance.
+* Default return value is `0 - 0` of `IndexPath` instance.
 
 ### PagingViewDelegate Function
 
 ```swift
-optional func pagingView(pagingView: PagingView.PagingView, willDisplayCell cell: PagingView.PagingViewCell, forItemAtIndexPath indexPath: NSIndexPath)
-optional func pagingView(pagingView: PagingView.PagingView, didEndDisplayingCell cell: PagingView.PagingViewCell, forItemAtIndexPath indexPath: NSIndexPath)
+optional func pagingView(pagingView: PagingView.PagingView, willDisplayCell cell: PagingView.PagingViewCell, forItemAtIndexPath indexPath: IndexPath)
+optional func pagingView(pagingView: PagingView.PagingView, didEndDisplayingCell cell: PagingView.PagingViewCell, forItemAtIndexPath indexPath: IndexPath)
 ```
 * Called at the display and end-display of.
 
