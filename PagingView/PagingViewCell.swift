@@ -8,22 +8,22 @@
 
 import UIKit
 
-public class PagingViewCell: UIView {
-    public internal(set) var indexPath = NSIndexPath(forItem: 0, inSection: 0)
-    public internal(set) var reuseIdentifier: String?
+open class PagingViewCell: UIView {
+    open internal(set) var indexPath = IndexPath(item: 0, section: 0)
+    open internal(set) var reuseIdentifier: String?
     /// Position of contents
-    public internal(set) var position: Position?
+    open internal(set) var position: Position?
     
-    public func prepareForReuse() {
+    open func prepareForReuse() {
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        hidden = true
+        isHidden = true
     }
     
     public required override init(frame: CGRect) {
         super.init(frame: frame)
-        hidden = true
+        isHidden = true
     }
 }

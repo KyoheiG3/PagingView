@@ -21,16 +21,16 @@ class PagingViewExampleUITests: XCTestCase {
     let reloadButton = XCUIApplication().buttons["ReloadButton"]
     
     var centerContentView: XCUIElement {
-        let query = pagingView.childrenMatchingType(.Other)
-        return query.elementBoundByIndex(query.count <= 1 ? 0 : 1)
+        let query = pagingView.children(matching: .other)
+        return query.element(boundBy: query.count <= 1 ? 0 : 1)
     }
     
     var centerCell: XCUIElement {
-        return centerContentView.childrenMatchingType(.Other).element
+        return centerContentView.children(matching: .other).element
     }
     
     var centerCellLabel: XCUIElement {
-        return centerCell.childrenMatchingType(.StaticText).element
+        return centerCell.children(matching: .staticText).element
     }
     
     override func setUp() {
@@ -52,14 +52,14 @@ class PagingViewExampleUITests: XCTestCase {
     }
     
     func testRotate() {
-        XCUIDevice.sharedDevice().orientation = .Portrait
+        XCUIDevice.shared().orientation = .portrait
         
         var lastConfigureText = configureLabel.label
         var lastWillDisplayText = willDisplayLabel.label
         var lastDidEndDisplayText = didEndDisplayLabel.label
         var lastCenterCellText = centerCellLabel.label
         
-        XCUIDevice.sharedDevice().orientation = .LandscapeRight
+        XCUIDevice.shared().orientation = .landscapeRight
         XCTAssertEqual(configureLabel.label, lastConfigureText)
         XCTAssertEqual(willDisplayLabel.label, lastWillDisplayText)
         XCTAssertEqual(didEndDisplayLabel.label, lastDidEndDisplayText)
@@ -71,7 +71,7 @@ class PagingViewExampleUITests: XCTestCase {
         lastDidEndDisplayText = didEndDisplayLabel.label
         lastCenterCellText = centerCellLabel.label
         
-        XCUIDevice.sharedDevice().orientation = .Portrait
+        XCUIDevice.shared().orientation = .portrait
         XCTAssertEqual(configureLabel.label, lastConfigureText)
         XCTAssertEqual(willDisplayLabel.label, lastWillDisplayText)
         XCTAssertEqual(didEndDisplayLabel.label, lastDidEndDisplayText)

@@ -8,9 +8,9 @@
 
 /// Position of contents of PagingView.
 public enum Position: Int {
-    case Left = 0
-    case Center
-    case Right
+    case left = 0
+    case center
+    case right
     
     static let count = 3
     

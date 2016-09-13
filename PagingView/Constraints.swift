@@ -18,15 +18,15 @@ func + (lhs: Constraints, rhs: Constraints) -> Constraints {
 struct Constraints {
     private(set) var collection: [NSLayoutConstraint] = []
     
-    mutating func append(constraints: Constraints) {
-        collection.appendContentsOf(constraints.collection)
+    mutating func append(_ constraints: Constraints) {
+        collection.append(contentsOf: constraints.collection)
     }
     
-    mutating func append(constraints: [NSLayoutConstraint]) {
-        collection.appendContentsOf(constraints)
+    mutating func append(_ constraints: [NSLayoutConstraint]) {
+        collection.append(contentsOf: constraints)
     }
     
-    mutating func append(constraint: NSLayoutConstraint) {
+    mutating func append(_ constraint: NSLayoutConstraint) {
         collection.append(constraint)
     }
     
