@@ -33,18 +33,18 @@ class DemoViewController: UIViewController {
 }
 
 extension DemoViewController: PagingViewDataSource, PagingViewDelegate, UIScrollViewDelegate {
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let centerCell = pagingView.visibleCenterCell() {
             let imageName = imageNames[centerCell.indexPath.item]
             title = imageName
         }
     }
     
-    func pagingView(pagingView: PagingView, numberOfItemsInSection section: Int) -> Int {
+    func pagingView(_ pagingView: PagingView, numberOfItemsInSection section: Int) -> Int {
         return imageNames.count
     }
     
-    func pagingView(pagingView: PagingView, cellForItemAtIndexPath indexPath: NSIndexPath) -> PagingViewCell {
+    func pagingView(_ pagingView: PagingView, cellForItemAtIndexPath indexPath: IndexPath) -> PagingViewCell {
         let cell = pagingView.dequeueReusableCellWithReuseIdentifier("DemoViewCell")
         if let cell = cell as? DemoViewCell {
             let imageName = imageNames[indexPath.item]

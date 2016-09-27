@@ -11,8 +11,8 @@ import UIKit
 class ContentView: UIView {
     typealias Cell = PagingViewCell
     
-    func visible(rect: CGRect) -> Bool {
-        return CGRectIntersectsRect(rect, frame)
+    func visible(_ rect: CGRect) -> Bool {
+        return rect.intersects(frame)
     }
     
     var position: Position?
@@ -21,16 +21,16 @@ class ContentView: UIView {
         return subviews.first as? Cell
     }
     
-    func addContentCell(cell: Cell, indexPath: NSIndexPath) {
+    func addContentCell(_ cell: Cell, indexPath: IndexPath) {
         cell.frame = CGRect(origin: CGPoint.zero, size: bounds.size)
-        cell.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        cell.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(cell)
         cell.position = position
         cell.indexPath = indexPath
-        cell.hidden = false
+        cell.isHidden = false
     }
     
-    func contentMoveFrom(contentView: ContentView?) {
+    func contentMoveFrom(_ contentView: ContentView?) {
         removeContentCell()
         
         if let cell = contentView?.cell {
