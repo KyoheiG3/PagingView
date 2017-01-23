@@ -634,7 +634,7 @@ extension PagingView {
             }
         }
         
-        for index in 0..<(allItemCount > 1 && infinite ? Position.count : allItemCount) {
+        for index in 0..<(allItemCount > (infinite ? 1 : Position.count) ? Position.count : allItemCount) {
             let contentView = ContentView(frame: bounds)
             contentView.position = Position(rawValue: index)
             contentView.translatesAutoresizingMaskIntoConstraints = false
