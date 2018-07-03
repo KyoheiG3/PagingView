@@ -59,7 +59,7 @@ open class PagingView: UIScrollView {
     fileprivate var constraintGroup: ConstraintGroup = ConstraintGroup()
     
     fileprivate var allItemCount: Int {
-        return itemCountInSection.reduce(0) { return $0.0 + $0.1 }
+        return itemCountInSection.reduce(0, { return $0 + $1 })
     }
     fileprivate var leftContentView: ContentView? {
         return contentViewAtPosition(.left)

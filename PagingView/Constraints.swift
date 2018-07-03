@@ -36,7 +36,7 @@ struct Constraints {
     
     var constant: CGFloat {
         get {
-            return collection.reduce(0) { $0.0 + $0.1.constant } / CGFloat(collection.count)
+            return collection.reduce(0, { $0 + $1.constant }) / CGFloat(collection.count)
         }
         set(constant) {
             for constraint in collection {
