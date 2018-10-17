@@ -59,7 +59,7 @@ class TestingViewController: UIViewController {
             
             UIView.animate(withDuration: context.transitionDuration,
                 delay: 0,
-                options: UIViewAnimationOptions(rawValue: UInt(context.completionCurve.rawValue << 16)),
+                options: UIView.AnimationOptions(rawValue: UInt(context.completionCurve.rawValue << 16)),
                 animations: pagingView.layoutIfNeeded,
                 completion: nil)
         }, completion: nil)
