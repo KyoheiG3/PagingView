@@ -52,14 +52,14 @@ class PagingViewExampleUITests: XCTestCase {
     }
     
     func testRotate() {
-        XCUIDevice.shared().orientation = .portrait
+        XCUIDevice.shared.orientation = .portrait
         
         var lastConfigureText = configureLabel.label
         var lastWillDisplayText = willDisplayLabel.label
         var lastDidEndDisplayText = didEndDisplayLabel.label
         var lastCenterCellText = centerCellLabel.label
         
-        XCUIDevice.shared().orientation = .landscapeRight
+        XCUIDevice.shared.orientation = .landscapeRight
         XCTAssertEqual(configureLabel.label, lastConfigureText)
         XCTAssertEqual(willDisplayLabel.label, lastWillDisplayText)
         XCTAssertEqual(didEndDisplayLabel.label, lastDidEndDisplayText)
@@ -71,7 +71,7 @@ class PagingViewExampleUITests: XCTestCase {
         lastDidEndDisplayText = didEndDisplayLabel.label
         lastCenterCellText = centerCellLabel.label
         
-        XCUIDevice.shared().orientation = .portrait
+        XCUIDevice.shared.orientation = .portrait
         XCTAssertEqual(configureLabel.label, lastConfigureText)
         XCTAssertEqual(willDisplayLabel.label, lastWillDisplayText)
         XCTAssertEqual(didEndDisplayLabel.label, lastDidEndDisplayText)
