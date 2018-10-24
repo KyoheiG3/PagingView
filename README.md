@@ -13,22 +13,18 @@ Infinite paging, Smart auto layout, Interface of similar to UIKit.
 
 ## Requirements
 
-- Swift 3.0
-- iOS 7.0 or later
+- Swift 4.2
+- iOS 8.0 or later
 
 ## How to Install PagingView
-
-### iOS 8+
 
 #### Cocoapods
 
 Add the following to your `Podfile`:
 
 ```Ruby
-use_frameworks!
 pod "PagingView"
 ```
-Note: the `use_frameworks!` is required for pods made in Swift.
 
 #### Carthage
 
@@ -38,19 +34,7 @@ Add the following to your `Cartfile`:
 github "KyoheiG3/PagingView"
 ```
 
-### iOS 7
-
-Just add everything in the `PagingView.swift`, `PagingViewCell.swift` and `Constraints.swift` file to your project.
-
 ## Usage
-
-### import
-
-If target is ios8.0 or later, please import the `PagingView`.
-
-```swift
-import PagingView
-```
 
 ### PagingView Variable
 
