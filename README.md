@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/KyoheiG3/assets/master/PagingView/logo.png" alt="LOGO" width="300" />
+<img src="https://user-images.githubusercontent.com/5707132/47400079-b0f8ac80-d776-11e8-9d26-9d0e26a2d532.png" alt="LOGO" width="300" />
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/PagingView.svg?style=flat)](http://cocoadocs.org/docsets/PagingView)
@@ -9,7 +9,7 @@ Infinite paging, Smart auto layout, Interface of similar to UIKit.
 
 #### [Appetize's Demo](https://appetize.io/app/030jqrt4nkm60rc0qu1wrvg4v8)
 
-![Demo](https://raw.githubusercontent.com/KyoheiG3/assets/master/PagingView/image_demo.gif)
+![Demo](https://user-images.githubusercontent.com/5707132/47400096-bd7d0500-d776-11e8-92a2-b79d4be1c4bb.gif)
 
 ## Requirements
 
